@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { cities } from '@/data/staticData';
 import { IoMdClose } from "react-icons/io";
 
-const SearchFilter = ({ searchQuery, setSearchQuery, location, setLocation }) => {
+const SearchFilter = ({ sortOption, setSortOption, searchQuery, setSearchQuery, location, setLocation }) => {
     const [text, setText] = useState('');
 
     useEffect(() => {
@@ -20,12 +20,11 @@ const SearchFilter = ({ searchQuery, setSearchQuery, location, setLocation }) =>
     }, [text, setSearchQuery]);
 
     const handleCityChange = (selectedCity) => {
-        console.log("selected city : ", selectedCity);
         setLocation(selectedCity);
     };
 
     return (
-        <div className="px-3 py-3 bg-white rounded-md border shadow-md flex gap-5 h-max">
+        <div className="px-3 py-3 w-full bg-white rounded-md border shadow-md flex flex-col md:flex-row justify-between gap-5 h-max">
             {/* Search Input */}
             <span className="flex gap-1 items-center w-full">
                 <IoMdSearch className="text-2xl ml-1" />
@@ -37,38 +36,49 @@ const SearchFilter = ({ searchQuery, setSearchQuery, location, setLocation }) =>
                     placeholder="Search for jobs or keywords."
                     aria-label="Search for jobs or keywords"
                 />
-                <button className='pl-1' onClick={() => {setSearchQuery(''); setText('')}}>
+                <button className='pl-1' onClick={() => { setSearchQuery(''); setText('') }}>
                     <IoMdClose />
                 </button>
             </span>
 
-            <span className="flex gap-1 items-center w-full">
-                <IoLocationSharp className="text-2xl ml-1" />
+            <div className='flex gap-x-3'>
+                <span className="flex gap-1 items-center w-full">
+                    <IoLocationSharp className="text-2xl mx-1" />
+                    <Select
+                        className="w-full shadow-none"
+                        onValueChange={handleCityChange}
+                        value={location}
+                    >
+                        <SelectTrigger className="w-full shadow-none outline-none">
+                            <SelectValue placeholder="Select a city" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {cities.map((city, index) => (
+                                <SelectItem key={index} value={city}>
+                                    {city}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <button className='px-1' onClick={() => setLocation('')}>
+                        <IoMdClose />
+                    </button>
+                </span>
+
                 <Select
-                    className="w-full shadow-none"
-                    onValueChange={handleCityChange}
-                    value={location}
+                    className=""
+                    value={sortOption}
+                    onValueChange={(val) => setSortOption(val)}
                 >
-                    <SelectTrigger className="w-full shadow-none outline-none">
-                        <SelectValue placeholder="Select a city" />
+                    <SelectTrigger className="w-[200px] md:w-[300px] shadow-none bg-accent-600 text-white">
+                        <SelectValue placeholder="Sort" className='' />
                     </SelectTrigger>
-                    <SelectContent>
-                        {cities.map((city, index) => (
-                            <SelectItem key={index} value={city}>
-                                {city}
-                            </SelectItem>
-                        ))}
+                    <SelectContent className="">
+                        <SelectItem value="date">Date posted</SelectItem>
+                        <SelectItem value="relevence">Relevence</SelectItem>
                     </SelectContent>
                 </Select>
-                <button className='pl-1' onClick={() => setLocation('')}>
-                    <IoMdClose />
-                </button>
-            </span>
-
-            {/* Search Button */}
-            <Button size="lg">
-                Search
-            </Button>
+            </div>
         </div>
     );
 };

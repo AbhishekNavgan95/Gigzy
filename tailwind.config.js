@@ -66,6 +66,7 @@ export default {
         backgroundColor: {
           default: "#eff1f8",
           dark: "#212529",
+          transparent: "#09051d55"
         },
         black: {
           50: "#f6f6f6",

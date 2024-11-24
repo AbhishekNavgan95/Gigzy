@@ -400,3 +400,45 @@ export const cities = [
   "Latur",
   "Satara",
 ]
+
+export const jobTypes = [
+  "Permanent",
+  "Intern",
+  "Contractual",
+  "Freelance",
+  "Part-Time",
+  "Temporary",
+  "Full-Time",
+  "Volunteer",
+  "Seasonal"
+]
+
+export const industriesNames = [
+  "Information Technology",
+  "Finance",
+  "E-commerce",
+  "Healthcare",
+  "Education",
+  "Retail",
+  "Manufacturing",
+  "Automotive",
+  "Telecommunications",
+  "Hospitality",
+  "Construction",
+  "Energy",
+  "Government",
+  "Logistics",
+  "Marketing",
+  "Real Estate"
+];
+
+export const educationLevels = [
+  "10th Pass",
+  "12th Pass",
+  "Diploma",
+  "Graduate",
+  "Postgraduate",
+  "Doctorate",
+  "Certification",
+  "No Education Required"
+];
