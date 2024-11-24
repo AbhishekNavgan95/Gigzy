@@ -68,7 +68,7 @@ const JobListing = () => {
             <p className='text-base text-center mx-auto md:mx-0 w-[90%] lg:text-start lg:text-xl mt-3 text-black-600'>Looking for a perfect job? Browse through latest job openings and apply with just few clicks.</p>
           </span>
           {
-            isLoaded && user.unsafeMetadata.role === 'recruiter' &&
+            isLoaded && user?.unsafeMetadata?.role === 'recruiter' &&
             <span className='w-max'>
               <Button>Post a Job</Button>
             </span>
