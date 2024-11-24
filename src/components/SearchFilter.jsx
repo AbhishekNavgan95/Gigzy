@@ -42,14 +42,16 @@ const SearchFilter = ({ sortOption, setSortOption, searchQuery, setSearchQuery, 
             </span>
 
             <div className='flex gap-x-3'>
-                <span className="flex gap-1 items-center w-full">
+                
+                {/* Location Dropdown */}
+                <span className="flex gap-1 w-full lg:max-w-[300px] items-center">
                     <IoLocationSharp className="text-2xl mx-1" />
                     <Select
                         className="w-full shadow-none"
                         onValueChange={handleCityChange}
                         value={location}
                     >
-                        <SelectTrigger className="w-full shadow-none outline-none">
+                        <SelectTrigger className="w-full lg:w-[200px] shadow-none outline-none">
                             <SelectValue placeholder="Select a city" />
                         </SelectTrigger>
                         <SelectContent>
@@ -65,12 +67,13 @@ const SearchFilter = ({ sortOption, setSortOption, searchQuery, setSearchQuery, 
                     </button>
                 </span>
 
+                {/* Sort Dropdown */}
                 <Select
                     className=""
                     value={sortOption}
                     onValueChange={(val) => setSortOption(val)}
                 >
-                    <SelectTrigger className="w-[200px] md:w-[300px] shadow-none bg-accent-600 text-white">
+                    <SelectTrigger className="max-w-[200px] shadow-none bg-accent-600 text-white">
                         <SelectValue placeholder="Sort" className='' />
                     </SelectTrigger>
                     <SelectContent className="">
