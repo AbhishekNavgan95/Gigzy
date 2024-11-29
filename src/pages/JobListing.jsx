@@ -16,11 +16,9 @@ const JobListing = () => {
   const { isLoaded, user } = useUser()
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [location, setLocation] = useState('');
-  const [company_id, setCompany_id] = useState('');
+  
+  const [searchParams, setSearchParams] = useSearchParams();
   const [sortOption, setSortOption] = useState('relevence')
-  const [jobType, setJobType] = useState('')
   const [showInActiveJobs, setShowInActiveJobs] = useState(false)
   const [industries, setIndustries] = useState([])
   const [education, setEducation] = useState([])
@@ -29,7 +27,15 @@ const JobListing = () => {
     data: jobs,
     loading: loadingJobs,
     fn: fnJobs,
-  } = useFetch(getJobs, { location, company_id, searchQuery, jobType, showInActiveJobs, industries, education });
+  } = useFetch(getJobs, {
+    company_id: searchParams.get('company-id'),
+    location: searchParams.get('location'),
+    jobType: searchParams.get('type'),
+    searchQuery: searchParams.get('search'),
+    showInActiveJobs,
+    industries,
+    education
+  });
 
   const {
     data: companiesData,
@@ -53,9 +59,7 @@ const JobListing = () => {
     if (!isLoaded) return
 
     fnJobs()
-  }, [isLoaded, location, company_id, searchQuery, jobType, showInActiveJobs, industries, education])
-
-  // console.log("user : ", user);
+  }, [isLoaded, searchParams, showInActiveJobs, industries, education])
 
   return (
     <section className='pt-20 px-3 bg-backgroundColor-default min-h-screen'>
@@ -87,21 +91,32 @@ const JobListing = () => {
           setIndustries={setIndustries}
           showInActiveJobs={showInActiveJobs}
           setShowInActiveJobs={setShowInActiveJobs}
-          jobType={jobType}
-          setJobType={setJobType}
           companies={companiesData}
           companyDataLoading={companyDataLoading}
-          setCompany_id={setCompany_id}
-          company_id={company_id}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
         />
 
         <div className='w-full flex flex-col gap-y-3'>
 
           {/* search filters */}
-          <SearchFilter sortOption={sortOption} setSortOption={setSortOption} searchQuery={searchQuery} setSearchQuery={setSearchQuery} location={location} setLocation={setLocation} />
+          <SearchFilter
+            sortOption={sortOption}
+            setSortOption={setSortOption}
+            // searchQuery={searchQuery}
+            // setSearchQuery={setSearchQuery}
+            searchPrams={searchParams}
+            setSearchParams={setSearchParams}
+          />
 
           {/* jobs list */}
-          <ListJobs user={user} jobs={jobs} isLoaded={isLoaded} loadingJobs={loadingJobs} sortOption={sortOption} />
+          <ListJobs
+            user={user}
+            jobs={jobs}
+            isLoaded={isLoaded}
+            loadingJobs={loadingJobs}
+            sortOption={sortOption}
+          />
         </div>
       </div>
     </section>

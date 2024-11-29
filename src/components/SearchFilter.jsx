@@ -6,25 +6,44 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { cities } from '@/data/staticData';
 import { IoMdClose } from "react-icons/io";
 
-const SearchFilter = ({ sortOption, setSortOption, searchQuery, setSearchQuery, location, setLocation }) => {
+const SearchFilter = ({
+    sortOption,
+    setSortOption,
+    searchPrams,
+    setSearchParams
+}) => {
     const [text, setText] = useState('');
 
     useEffect(() => {
         const handler = setTimeout(() => {
-            setSearchQuery(text);
+            if (text) {
+                setSearchParams({ 'search': text })
+            } else {
+                const param = new URLSearchParams(searchPrams);
+                param.delete('search');
+                setSearchParams(param);
+            }
         }, 500);
 
         return () => {
             clearTimeout(handler);
         };
-    }, [text, setSearchQuery]);
+    }, [text, setSearchParams]);
 
     const handleCityChange = (selectedCity) => {
-        setLocation(selectedCity);
+        setSearchParams({ 'location': selectedCity });
+    };
+
+    const clearSearchText = () => {
+        setText('');
+        const param = new URLSearchParams(searchPrams);
+        param.delete('search');
+        setSearchParams(param);
     };
 
     return (
         <div className="px-3 py-3 w-full bg-white rounded-md border shadow-md flex flex-col md:flex-row justify-between gap-5 h-max">
+            
             {/* Search Input */}
             <span className="flex gap-1 items-center w-full">
                 <IoMdSearch className="text-2xl ml-1" />
@@ -36,20 +55,20 @@ const SearchFilter = ({ sortOption, setSortOption, searchQuery, setSearchQuery, 
                     placeholder="Search for jobs or keywords."
                     aria-label="Search for jobs or keywords"
                 />
-                <button className='pl-1' onClick={() => { setSearchQuery(''); setText('') }}>
+                <button className='pl-1' onClick={clearSearchText}>
                     <IoMdClose />
                 </button>
             </span>
 
             <div className='flex gap-x-3 '>
-                
+
                 {/* Location Dropdown */}
                 <span className="flex gap-1 w-full justify-center items-center">
                     <IoLocationSharp className="text-2xl mx-1" />
                     <Select
                         className="w-full shadow-none lg:min-w-[300px]"
                         onValueChange={handleCityChange}
-                        value={location}
+                        value={searchPrams.get('location') || ''}
                     >
                         <SelectTrigger className="w-full lg:w-[200px] shadow-none outline-none">
                             <SelectValue placeholder="Select a city" />
@@ -62,7 +81,11 @@ const SearchFilter = ({ sortOption, setSortOption, searchQuery, setSearchQuery, 
                             ))}
                         </SelectContent>
                     </Select>
-                    <button className='px-1' onClick={() => setLocation('')}>
+                    <button className='px-1' onClick={() => {
+                        const newParams = new URLSearchParams(searchPrams);
+                        newParams.delete('location');
+                        setSearchParams(newParams);
+                    }}>
                         <IoMdClose />
                     </button>
                 </span>

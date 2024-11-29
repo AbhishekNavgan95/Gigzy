@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -15,13 +15,15 @@ const JobFilters = ({
     setShowInActiveJobs,
     companies,
     companyDataLoading,
-    setCompany_id,
-    company_id,
-    setJobType,
-    jobType
+    searchParams,
+    setSearchParams
 }) => {
 
     const [showMenu, setShowMenu] = useState(false);
+
+    // useEffect(() => {
+
+    // }, [searchParams])
 
     const openMenu = () => {
         setShowMenu(true);
@@ -29,6 +31,10 @@ const JobFilters = ({
 
     const closeMenu = (e) => {
         setShowMenu(false);
+    }
+
+    const handleJobTypeChange = (val) => {
+        setSearchParams({ 'type': val })
     }
 
     return (
@@ -46,9 +52,19 @@ const JobFilters = ({
                     <span className='space-y-3'>
                         <span className='flex items-center justify-between'>
                             <h5 className='font-semibold'>Companies</h5>
-                            <button className='text-accent-600 text-sm font-semibold' onClick={() => setCompany_id('')}>Clear</button>
+                            <button 
+                            className='text-accent-600 text-sm font-semibold' 
+                            onClick={() => {
+                                const params = new URLSearchParams(searchParams)
+                                params.delete('company-id')
+                                setSearchParams(params)
+                            }}>Clear</button>
                         </span>
-                        <Select className="w-full " value={company_id} onValueChange={(value) => setCompany_id(value)}>
+                        <Select
+                            className="w-full "
+                            value={companies?.find((e) => e?.id === Number(searchParams.get('company-id')).name)}
+                            onValueChange={(val) => setSearchParams({ 'company-id': val })}
+                        >
                             <SelectTrigger className="w-full border border-black-600">
                                 <SelectValue placeholder="Select a companay" />
                             </SelectTrigger>
@@ -68,9 +84,13 @@ const JobFilters = ({
                     <span className='space-y-3'>
                         <span className='flex items-center justify-between'>
                             <h5 className='font-semibold'>Type</h5>
-                            <button className='text-accent-600 text-sm font-semibold' onClick={() => setJobType('')}>Clear</button>
+                            <button className='text-accent-600 text-sm font-semibold' onClick={() => {
+                                const params = new URLSearchParams(searchParams)
+                                params.delete('type')
+                                setSearchParams(params)
+                            }}>Clear</button>
                         </span>
-                        <RadioGroup value={jobType} onValueChange={(value) => setJobType(value)} className="grid lg:grid-cols-2 space-y-1" defaultValue="comfortable">
+                        <RadioGroup value={searchParams.get('type')} onValueChange={handleJobTypeChange} className="grid lg:grid-cols-2 space-y-1" defaultValue="comfortable">
                             {
                                 jobTypes.map((job, index) => (
                                     <div key={job} className="flex items-center space-x-2">
