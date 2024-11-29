@@ -21,10 +21,6 @@ const JobFilters = ({
 
     const [showMenu, setShowMenu] = useState(false);
 
-    // useEffect(() => {
-
-    // }, [searchParams])
-
     const openMenu = () => {
         setShowMenu(true);
     }
@@ -34,7 +30,9 @@ const JobFilters = ({
     }
 
     const handleJobTypeChange = (val) => {
-        setSearchParams({ 'type': val })
+        const params = new URLSearchParams(searchParams)
+        params.set('type', val)
+        setSearchParams(params)
     }
 
     return (
@@ -52,9 +50,7 @@ const JobFilters = ({
                     <span className='space-y-3'>
                         <span className='flex items-center justify-between'>
                             <h5 className='font-semibold'>Companies</h5>
-                            <button 
-                            className='text-accent-600 text-sm font-semibold' 
-                            onClick={() => {
+                            <button className='text-accent-600 text-sm font-semibold' onClick={() => {
                                 const params = new URLSearchParams(searchParams)
                                 params.delete('company-id')
                                 setSearchParams(params)
@@ -63,7 +59,11 @@ const JobFilters = ({
                         <Select
                             className="w-full "
                             value={companies?.find((e) => e?.id === Number(searchParams.get('company-id')).name)}
-                            onValueChange={(val) => setSearchParams({ 'company-id': val })}
+                            onValueChange={(val) => {
+                                const params = new URLSearchParams(searchParams)
+                                params.set('company-id', val)
+                                setSearchParams(params)
+                            }}
                         >
                             <SelectTrigger className="w-full border border-black-600">
                                 <SelectValue placeholder="Select a companay" />

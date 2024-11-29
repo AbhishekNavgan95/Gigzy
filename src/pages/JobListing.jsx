@@ -3,7 +3,6 @@ import { getJobs } from '@/api/jobsApi'
 import React, { useEffect, useState } from 'react'
 import { useUser } from '@clerk/clerk-react'
 import SearchFilter from '@/components/SearchFilter'
-import Spinner from '@/components/Spinner'
 import { getCompanies } from '@/api/companyApi'
 import JobFilters from '@/components/JobFilters'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -16,7 +15,7 @@ const JobListing = () => {
   const { isLoaded, user } = useUser()
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortOption, setSortOption] = useState('relevence')
   const [showInActiveJobs, setShowInActiveJobs] = useState(false)
@@ -60,6 +59,13 @@ const JobListing = () => {
 
     fnJobs()
   }, [isLoaded, searchParams, showInActiveJobs, industries, education])
+
+  useEffect(() => {
+    return () => {
+      // remove all filters while leaving the page
+      setSearchParams(new URLSearchParams()); 
+    };
+  }, []);
 
   return (
     <section className='pt-20 px-3 bg-backgroundColor-default min-h-screen'>

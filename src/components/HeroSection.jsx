@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from './ui/button'
 import {
     Select,
@@ -9,9 +9,28 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { FaLocationArrow } from "react-icons/fa";
-import {cities, jobTitles} from '@/data/staticData'
+import {cities, jobTitles, jobTypes} from '@/data/staticData'
 
 const HeroSection = () => {
+
+    const navigate = useNavigate();
+    const [type, setType] = useState('');
+    const [location, setLocation] = useState('');
+    console.log("location : ", location)
+
+    const searchAccordingToFilters = () => {
+        if(!type && !location) return
+
+        let route = ''
+        if(type) {
+            route += `&type=${type}`
+        }
+        if(location) {
+            route += `&location=${location}`
+        }
+        navigate(`/jobs?${route}`)
+    }
+
     return (
         <section className='grid-background pt-12 pb-5 lg:pt-36 flex flex-col gap-y-12 lg:gap-y-20 px-3'>
             <div className='px-3 flex flex-col lg:flex-row items-center justify-center gap-y-10 gap-x-6 lg:gap-14 xl:gap-x-24'>
@@ -41,34 +60,34 @@ const HeroSection = () => {
 
             <div className='p-3 flex flex-col sm:flex-row sm:items-center gap-5 rounded-lg bg-white shadow-md w-max mx-auto'>
                 <div className='flex gap-3'>
-                    <Select>
+                    <Select value={type} onValueChange={(val) => setType(val)}>
                         <SelectTrigger className="w-[150px] lg:w-[200px] bg-black-100 h-10 md:h-12 text-black-800">
-                            <SelectValue placeholder="Job Title" />
+                            <SelectValue placeholder="Job Type" />
                         </SelectTrigger>
                         <SelectContent>
                             {
-                                jobTitles.map((jobTitle, index) => (
-                                    <SelectItem key={index} value={jobTitle}>{jobTitle}</SelectItem>
+                                jobTypes.map((jobType, index) => (
+                                    <SelectItem key={index+jobType} value={jobType}>{jobType}</SelectItem>
                                 ))
                             }
                         </SelectContent>
                     </Select>
 
-                    <Select>
+                    <Select value={location} onValueChange={(val) => setLocation(val)}>
                         <SelectTrigger className="w-[150px] lg:w-[200px] bg-black-100 h-10 md:h-12 text-black-800">
                             <SelectValue placeholder="City" />
                         </SelectTrigger>
                         <SelectContent>
                             {
                                 cities.map((city, index) => (
-                                    <SelectItem key={index} value={city}>{city}</SelectItem>
+                                    <SelectItem key={index+city} value={city}>{city}</SelectItem>
                                 ))
                             }
                         </SelectContent>
                     </Select>
                 </div>
 
-                <Button className="md:h-12 w-full sm:w-max lg:w-[200px]" size="lg" variant="default">
+                <Button onClick={searchAccordingToFilters} className="md:h-12 w-full sm:w-max lg:w-[200px]" size="lg" variant="default">
                     Search
                 </Button>
             </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { IoMdSearch } from "react-icons/io";
-import { Button } from './ui/button';
 import { IoLocationSharp } from "react-icons/io5";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { cities } from '@/data/staticData';
@@ -17,7 +16,9 @@ const SearchFilter = ({
     useEffect(() => {
         const handler = setTimeout(() => {
             if (text) {
-                setSearchParams({ 'search': text })
+                const param = new URLSearchParams(searchPrams);
+                param.set('search', text);
+                setSearchParams(param);
             } else {
                 const param = new URLSearchParams(searchPrams);
                 param.delete('search');
@@ -31,7 +32,9 @@ const SearchFilter = ({
     }, [text, setSearchParams]);
 
     const handleCityChange = (selectedCity) => {
-        setSearchParams({ 'location': selectedCity });
+        const params = new URLSearchParams(searchPrams);
+        params.set('location', selectedCity);
+        setSearchParams(params);
     };
 
     const clearSearchText = () => {
