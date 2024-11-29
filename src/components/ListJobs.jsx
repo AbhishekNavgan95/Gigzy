@@ -3,7 +3,7 @@ import JobCard from '@/components/JobCard'
 import DataNotFound from '@/components/DataNotFound'
 import Spinner from './Spinner'
 
-const ListJobs = ({ jobs, isLoaded, loadingJobs, sortOption }) => {
+const ListJobs = ({ jobs, isLoaded, user, loadingJobs, sortOption }) => {
     return (
         <>
             {
@@ -19,7 +19,7 @@ const ListJobs = ({ jobs, isLoaded, loadingJobs, sortOption }) => {
                         <h4 className='text-xl font-thin px-3'>{jobs && jobs.length} Jobs results</h4>
                         <div className='flex flex-col gap-3 w-full'>
                             {
-                                jobs.slice().sort((a, b) => {
+                                isLoaded && jobs.slice().sort((a, b) => {
                                     if (sortOption === 'date') {
                                         return new Date(b.created_at) - new Date(a.created_at)
                                     } else {
@@ -28,7 +28,7 @@ const ListJobs = ({ jobs, isLoaded, loadingJobs, sortOption }) => {
                                 }).map((job) => {
                                     return (
                                         <div key={job.id}>
-                                            <JobCard job={job} saved={job?.saved_job?.some((e) => e.user_id === user.id)} />
+                                            <JobCard job={job} saved={job?.saved_job?.some((e) => e?.user_id === user?.id)} />
                                         </div>
                                     )
                                 })

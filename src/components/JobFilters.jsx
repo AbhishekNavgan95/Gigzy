@@ -34,12 +34,12 @@ const JobFilters = ({
     return (
         <div className='flex flex-col gap-3 w-full lg:w-max'>
 
-            <div className='w-full lg:hidden flex justify-between items-center'>
+            <div className='w-full lg:hidden flex justify-between items-center '>
                 <h4 className='text-sm font-semibold'>Filters</h4>
                 <button onClick={showMenu ? closeMenu : openMenu} className='text-accent-600 font-semibold text-sm'>Show more</button>
             </div>
 
-            <div onClick={closeMenu} className={` border ${showMenu ? "pointer-events-auto opacity-1" : "pointer-events-none opacity-0"} lg:pointer-events-auto  rounded-lg fixed lg:opacity-100 lg:static inset-0 lg:inset-full z-[2] bg-backgroundColor-transparent overflow-scroll`}>
+            <div onClick={closeMenu} className={` border ${showMenu ? "pointer-events-auto opacity-1" : "pointer-events-none opacity-0"} lg:pointer-events-auto rounded-lg fixed lg:opacity-100 lg:static inset-0 lg:inset-full z-[2] bg-backgroundColor-transparent overflow-hidden`}>
                 <div onClick={(e) => e.stopPropagation()} className={`flex flex-col gap-y-5 ${showMenu ? 'translate-x-0' : 'translate-x-[-100%]'} lg:translate-x-0 transition-all duration-300 ease-in-out w-max lg:w-[320px] p-5 shadow-md bg-white rounded-md`}>
 
                     {/* comapny */}

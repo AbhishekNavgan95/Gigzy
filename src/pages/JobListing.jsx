@@ -6,7 +6,7 @@ import SearchFilter from '@/components/SearchFilter'
 import Spinner from '@/components/Spinner'
 import { getCompanies } from '@/api/companyApi'
 import JobFilters from '@/components/JobFilters'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
 import ListJobs from '@/components/ListJobs'
@@ -101,7 +101,7 @@ const JobListing = () => {
           <SearchFilter sortOption={sortOption} setSortOption={setSortOption} searchQuery={searchQuery} setSearchQuery={setSearchQuery} location={location} setLocation={setLocation} />
 
           {/* jobs list */}
-          <ListJobs jobs={jobs} isLoaded={isLoaded} loadingJobs={loadingJobs} sortOption={sortOption} />
+          <ListJobs user={user} jobs={jobs} isLoaded={isLoaded} loadingJobs={loadingJobs} sortOption={sortOption} />
         </div>
       </div>
     </section>
