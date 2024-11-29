@@ -60,13 +60,6 @@ const JobListing = () => {
     fnJobs()
   }, [isLoaded, searchParams, showInActiveJobs, industries, education])
 
-  useEffect(() => {
-    return () => {
-      // remove all filters while leaving the page
-      setSearchParams(new URLSearchParams()); 
-    };
-  }, []);
-
   return (
     <section className='pt-20 px-3 bg-backgroundColor-default min-h-screen'>
 
