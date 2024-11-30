@@ -137,7 +137,7 @@ const JobFilters = ({
 
                     {/* Status */}
                     <span className='flex gap-3 justify-between items-center'>
-                        <h5 className='font-semibold'>Inactive Job Listings</h5>
+                        <h5 className='font-semibold'>Show Inactive Jobs</h5>
                         <Switch
                             checked={showInActiveJobs}
                             onCheckedChange={() => setShowInActiveJobs(prev => !prev)}

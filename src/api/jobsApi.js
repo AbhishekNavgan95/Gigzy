@@ -10,17 +10,19 @@ export async function getJobs(
     showInActiveJobs,
     industries = [],
     education,
+    page = 1, // Default to page 1
+    limit = 10, // Default to 10 items per page
   }
 ) {
   try {
     const supabase = await supabaseClient(token);
 
-    // Start building the query
-    let query = supabase
+    // Start building the base query
+    let baseQuery = supabase
       .from("job")
-      .select("*, company (*), saved_job(user_id)");
+      .select("id", { count: "exact" }); // Minimal select with count for total rows
 
-    // if checking for foreign key table, first filter out the companies and then based on the output filter jobs table
+    // Include filters in the base query
     let companyIds = [];
     if (industries.length > 0) {
       const { data: companies, error: companyError } = await supabase
@@ -32,60 +34,117 @@ export async function getJobs(
         throw companyError;
       }
 
-      // Get the company IDs
       companyIds = companies.map((company) => company.id);
     }
 
-    // include rows accoring to industries matching
     if (companyIds.length > 0 && industries.length > 0) {
-      query = query.in("company_id", companyIds);
+      baseQuery = baseQuery.in("company_id", companyIds);
     } else if (industries.length > 0 && companyIds.length === 0) {
-      query = query.in("company_id", companyIds);
+      baseQuery = baseQuery.in("company_id", companyIds);
     }
 
-    // Filter by location
     if (location) {
-      query = query.eq("city", location);
+      baseQuery = baseQuery.eq("city", location);
     }
 
-    // filter by education required
     if (education && education.length > 0) {
-      query = query.in("education", education);
+      baseQuery = baseQuery.in("education", education);
     }
 
-    // filter by job type
     if (jobType) {
-      query = query.eq("employment_type", jobType);
+      baseQuery = baseQuery.eq("employment_type", jobType);
     }
 
-    // filter by status
     if (!showInActiveJobs) {
-      query = query.eq("status", "Active");
+      baseQuery = baseQuery.eq("status", "Active");
     }
 
-    // Filter by company ID
     if (company_id) {
-      query = query.eq("company_id", company_id);
+      baseQuery = baseQuery.eq("company_id", company_id);
     }
 
-    // filter by search query
     if (searchQuery) {
-      query = query.or(
+      baseQuery = baseQuery.or(
         `title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,city.ilike.%${searchQuery}%,employment_type.ilike.%${searchQuery}%,experience_level.ilike.%${searchQuery}%,skills_required.ilike.%${searchQuery}%`
       );
     }
 
-    const { data, error } = await query;
+    // Execute the base query to get the total count
+    const { count: totalCount, error: countError } = await baseQuery;
+    if (countError) {
+      throw countError;
+    }
 
-    // console.log("data : ", data);
+    // Calculate total pages
+    const totalPages = Math.ceil(totalCount / limit);
+
+    // Start building the query for data retrieval
+    let dataQuery = supabase
+      .from("job")
+      .select("*, company (*), saved_job(user_id)");
+
+    // Apply the same filters as baseQuery
+    if (companyIds.length > 0 && industries.length > 0) {
+      dataQuery = dataQuery.in("company_id", companyIds);
+    } else if (industries.length > 0 && companyIds.length === 0) {
+      dataQuery = dataQuery.in("company_id", companyIds);
+    }
+
+    if (location) {
+      dataQuery = dataQuery.eq("city", location);
+    }
+
+    if (education && education.length > 0) {
+      dataQuery = dataQuery.in("education", education);
+    }
+
+    if (jobType) {
+      dataQuery = dataQuery.eq("employment_type", jobType);
+    }
+
+    if (!showInActiveJobs) {
+      dataQuery = dataQuery.eq("status", "Active");
+    }
+
+    if (company_id) {
+      dataQuery = dataQuery.eq("company_id", company_id);
+    }
+
+    if (searchQuery) {
+      dataQuery = dataQuery.or(
+        `title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,city.ilike.%${searchQuery}%,employment_type.ilike.%${searchQuery}%,experience_level.ilike.%${searchQuery}%,skills_required.ilike.%${searchQuery}%`
+      );
+    }
+
+    // Apply pagination
+    const start = (page - 1) * limit;
+    const end = start + limit - 1;
+    dataQuery = dataQuery.range(start, end);
+
+    // Execute the data query
+    const { data, error } = await dataQuery;
 
     if (error) {
       throw error;
     }
 
-    return data;
+    return {
+      data,
+      pagination: {
+        totalCount,
+        totalPages,
+        currentPage: Number(page),
+      },
+    };
   } catch (e) {
     console.error("Error fetching jobs:", e);
-    return null;
+    return {
+      data: null,
+      pagination: {
+        totalCount: 0,
+        totalPages: 0,
+        currentPage: page,
+      },
+    };
   }
 }

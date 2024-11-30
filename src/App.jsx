@@ -33,11 +33,11 @@ const router = createBrowserRouter([
         element: <OnboardingPage />
       },
       {
-        path: "/jobs",
+        path: "/jobs/:page",
         element: <ProtectedRoute><JobListing /></ProtectedRoute>,
       },
       {
-        path: "/jobs/:id",
+        path: "/job/:id",
         element: <JobDetails />,
       },
       {

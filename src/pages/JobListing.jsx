@@ -5,7 +5,7 @@ import { useUser } from '@clerk/clerk-react'
 import SearchFilter from '@/components/SearchFilter'
 import { getCompanies } from '@/api/companyApi'
 import JobFilters from '@/components/JobFilters'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
 import ListJobs from '@/components/ListJobs'
@@ -21,12 +21,16 @@ const JobListing = () => {
   const [showInActiveJobs, setShowInActiveJobs] = useState(false)
   const [industries, setIndustries] = useState([])
   const [education, setEducation] = useState([])
+  const { page } = useParams();
+  const jobsPerPage = 2;
 
   const {
-    data: jobs,
+    data: jobsData,
     loading: loadingJobs,
     fn: fnJobs,
   } = useFetch(getJobs, {
+    page: page,
+    limit: jobsPerPage,
     company_id: searchParams.get('company-id'),
     location: searchParams.get('location'),
     jobType: searchParams.get('type'),
@@ -44,6 +48,8 @@ const JobListing = () => {
 
   useEffect(() => {
     if (!isLoaded) return
+    console.log("data : ", jobsData);  
+
     if (isLoaded && !user) {
       navigate('/?sign-in=true')
       toast({
@@ -102,19 +108,19 @@ const JobListing = () => {
           <SearchFilter
             sortOption={sortOption}
             setSortOption={setSortOption}
-            // searchQuery={searchQuery}
-            // setSearchQuery={setSearchQuery}
             searchPrams={searchParams}
             setSearchParams={setSearchParams}
           />
 
           {/* jobs list */}
-          <ListJobs
+          <ListJobs 
             user={user}
-            jobs={jobs}
+            jobsData={jobsData} 
             isLoaded={isLoaded}
             loadingJobs={loadingJobs}
             sortOption={sortOption}
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
           />
         </div>
       </div>

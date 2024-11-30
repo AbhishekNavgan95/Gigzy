@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select"
 import { FaLocationArrow } from "react-icons/fa";
 import {cities, jobTitles, jobTypes} from '@/data/staticData'
+import { toast } from '@/hooks/use-toast';
 
 const HeroSection = () => {
 
@@ -19,7 +20,12 @@ const HeroSection = () => {
     console.log("location : ", location)
 
     const searchAccordingToFilters = () => {
-        if(!type && !location) return
+        if(!type && !location) {
+            toast({
+                title: 'Please select atleast one option!'
+            });
+            return
+        }
 
         let route = ''
         if(type) {
