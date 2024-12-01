@@ -55,7 +55,7 @@ const HeroSection = () => {
                         </h1>
                     </span>
                     <p className='max-w-[400px] lg:max-w-[500px] text-center text-black-600 lg:text-end text-base md:text-lg'>Discover your dream job effortlessly with Gigzy - the platform that connects you to opportunities tailored to your interests.</p>
-                    <Link to={"/jobs"} className='flex items-start'>
+                    <Link to={"/jobs/1"} className='flex items-start'>
                         <Button size="lg" variant="default">Find Jobs</Button>
                     </Link>
                 </div>

@@ -10,8 +10,9 @@ export async function getJobs(
     showInActiveJobs,
     industries = [],
     education,
-    page = 1, // Default to page 1
-    limit = 10, // Default to 10 items per page
+    sortOption,
+    page = 1,
+    limit = 10,
   }
 ) {
   try {
@@ -120,6 +121,10 @@ export async function getJobs(
     const start = (page - 1) * limit;
     const end = start + limit - 1;
     dataQuery = dataQuery.range(start, end);
+
+    if(sortOption === 'date') {
+      dataQuery = dataQuery.order("created_at", { ascending: true });
+    }
 
     // Execute the data query
     const { data, error } = await dataQuery;

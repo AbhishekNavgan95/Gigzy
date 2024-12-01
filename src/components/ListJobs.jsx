@@ -48,16 +48,10 @@ const ListJobs = ({
             {
                 data?.jobs && data?.jobs?.length > 0 && loadingJobs === false && (
                     <>
-                        <h4 className='text-xl font-thin px-3'>{data?.jobs && data?.jobs?.length} Jobs results</h4>
+                        <h4 className='text-xl font-thin px-3'>{data?.pagination && data?.pagination?.totalCount } Jobs results</h4>
                         <div className='flex flex-col gap-3 w-full'>
                             {
-                                isLoaded && data.jobs.slice().sort((a, b) => {
-                                    if (sortOption === 'date') {
-                                        return new Date(b.created_at) - new Date(a.created_at)
-                                    } else {
-                                        return 0
-                                    }
-                                }).map((job) => {
+                                isLoaded && data.jobs.map((job) => {
                                     return (
                                         <div key={job.id}>
                                             <JobCard job={job} saved={job?.saved_job?.some((e) => e?.user_id === user?.id)} />

@@ -22,7 +22,7 @@ const JobListing = () => {
   const [industries, setIndustries] = useState([])
   const [education, setEducation] = useState([])
   const { page } = useParams();
-  const jobsPerPage = 2;
+  const jobsPerPage = 10;
 
   const {
     data: jobsData,
@@ -35,6 +35,7 @@ const JobListing = () => {
     location: searchParams.get('location'),
     jobType: searchParams.get('type'),
     searchQuery: searchParams.get('search'),
+    sortOption,
     showInActiveJobs,
     industries,
     education
@@ -48,7 +49,6 @@ const JobListing = () => {
 
   useEffect(() => {
     if (!isLoaded) return
-    console.log("data : ", jobsData);  
 
     if (isLoaded && !user) {
       navigate('/?sign-in=true')
@@ -64,7 +64,7 @@ const JobListing = () => {
     if (!isLoaded) return
 
     fnJobs()
-  }, [isLoaded, searchParams, showInActiveJobs, industries, education])
+  }, [isLoaded, searchParams, showInActiveJobs, industries, education, sortOption])
 
   return (
     <section className='pt-20 px-3 bg-backgroundColor-default min-h-screen'>
