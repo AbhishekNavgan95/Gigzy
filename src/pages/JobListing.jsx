@@ -24,6 +24,16 @@ const JobListing = () => {
   const { page } = useParams();
   const jobsPerPage = 10;
 
+  const [showMenu, setShowMenu] = useState(false);
+
+  const openMenu = () => {
+    setShowMenu(true);
+  }
+
+  const closeMenu = (e) => {
+    setShowMenu(false);
+  }
+
   const {
     data: jobsData,
     loading: loadingJobs,
@@ -86,10 +96,13 @@ const JobListing = () => {
       </div>
 
 
-      <div className='flex items-start flex-col lg:flex-row py-5 md:py-10 gap-5 lg:gap-10 container mx-auto'>
+      <div className='pb-5 flex items-start flex-col lg:flex-row md:py-10 gap-5 lg:gap-10 container mx-auto'>
 
         {/* filters */}
         <JobFilters
+          openMenu={openMenu}
+          closeMenu={closeMenu}
+          showMenu={showMenu}
           education={education}
           setEducation={setEducation}
           industries={industries}
@@ -113,9 +126,12 @@ const JobListing = () => {
           />
 
           {/* jobs list */}
-          <ListJobs 
+          <ListJobs
+            openMenu={openMenu}
+            closeMenu={closeMenu}
+            showMenu={showMenu}
             user={user}
-            jobsData={jobsData} 
+            jobsData={jobsData}
             isLoaded={isLoaded}
             loadingJobs={loadingJobs}
             sortOption={sortOption}

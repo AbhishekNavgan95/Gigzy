@@ -8,7 +8,6 @@ import {
 
 const ToolTip = ({children, text}) => {
     return (
-
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger asChild>
