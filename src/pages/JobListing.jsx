@@ -9,6 +9,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
 import ListJobs from '@/components/ListJobs'
+import Footer from '@/components/Footer'
 
 const JobListing = () => {
 
@@ -77,70 +78,73 @@ const JobListing = () => {
   }, [isLoaded, searchParams, showInActiveJobs, industries, education, sortOption])
 
   return (
-    <section className='pt-20 px-3 bg-backgroundColor-default min-h-screen'>
+    <>
+      <section className='pt-20 px-3 bg-backgroundColor-default min-h-screen'>
 
-      {/* header */}
-      <div className='py-10 lg:py-20 border-y grid-background'>
-        <div className='container px-3 mx-auto relative z-[2] flex flex-col lg:flex-row items-center w-full gap-y-5 gap-x-10'>
-          <span className='w-full'>
-            <h1 className='text-4xl text-center lg:text-start font-semibold text-accent-600'>Find Your Dream Job</h1>
-            <p className='text-base text-center mx-auto md:mx-0 w-[90%] lg:text-start lg:text-xl mt-3 text-black-600'>Looking for a perfect job? Browse through latest job openings and apply with just few clicks.</p>
-          </span>
-          {
-            isLoaded && user?.unsafeMetadata?.role === 'recruiter' &&
-            <span className='w-max'>
-              <Button>Post a Job</Button>
+        {/* header */}
+        <div className='py-10 lg:py-20 border-y bg-white'>
+          <div className='container px-3 mx-auto relative z-[2] flex flex-col lg:flex-row items-center w-full gap-y-5 gap-x-10'>
+            <span className='w-full'>
+              <h1 className='text-4xl text-center lg:text-start font-semibold text-accent-600'>Find Your Dream Job</h1>
+              <p className='text-base text-center mx-auto md:mx-0 w-[90%] lg:text-start lg:text-xl mt-3 text-black-600'>Looking for a perfect job? Browse through latest job openings and apply with just few clicks.</p>
             </span>
-          }
+            {
+              isLoaded && user?.unsafeMetadata?.role === 'recruiter' &&
+              <span className='w-max'>
+                <Button>Post a Job</Button>
+              </span>
+            }
+          </div>
         </div>
-      </div>
 
 
-      <div className='pb-5 flex items-start flex-col lg:flex-row md:py-10 gap-5 lg:gap-10 container mx-auto'>
+        <div className='pb-5 flex items-start flex-col lg:flex-row md:py-10 gap-5 lg:gap-10 container mx-auto'>
 
-        {/* filters */}
-        <JobFilters
-          openMenu={openMenu}
-          closeMenu={closeMenu}
-          showMenu={showMenu}
-          education={education}
-          setEducation={setEducation}
-          industries={industries}
-          setIndustries={setIndustries}
-          showInActiveJobs={showInActiveJobs}
-          setShowInActiveJobs={setShowInActiveJobs}
-          companies={companiesData}
-          companyDataLoading={companyDataLoading}
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-        />
-
-        <div className='w-full flex flex-col gap-y-3'>
-
-          {/* search filters */}
-          <SearchFilter
-            sortOption={sortOption}
-            setSortOption={setSortOption}
-            searchPrams={searchParams}
-            setSearchParams={setSearchParams}
-          />
-
-          {/* jobs list */}
-          <ListJobs
+          {/* filters */}
+          <JobFilters
             openMenu={openMenu}
             closeMenu={closeMenu}
             showMenu={showMenu}
-            user={user}
-            jobsData={jobsData}
-            isLoaded={isLoaded}
-            loadingJobs={loadingJobs}
-            sortOption={sortOption}
+            education={education}
+            setEducation={setEducation}
+            industries={industries}
+            setIndustries={setIndustries}
+            showInActiveJobs={showInActiveJobs}
+            setShowInActiveJobs={setShowInActiveJobs}
+            companies={companiesData}
+            companyDataLoading={companyDataLoading}
             searchParams={searchParams}
             setSearchParams={setSearchParams}
           />
+
+          <div className='w-full flex flex-col gap-y-3'>
+
+            {/* search filters */}
+            <SearchFilter
+              sortOption={sortOption}
+              setSortOption={setSortOption}
+              searchPrams={searchParams}
+              setSearchParams={setSearchParams}
+            />
+
+            {/* jobs list */}
+            <ListJobs
+              openMenu={openMenu}
+              closeMenu={closeMenu}
+              showMenu={showMenu}
+              user={user}
+              jobsData={jobsData}
+              isLoaded={isLoaded}
+              loadingJobs={loadingJobs}
+              sortOption={sortOption}
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <Footer />
+    </>
   )
 }
 
