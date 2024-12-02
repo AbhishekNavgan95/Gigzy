@@ -50,7 +50,7 @@ const ListJobs = ({
                 )
             }
             <div className='w-full flex justify-between items-center px-3'>
-                <h4 className='text-xl font-thin'>{data?.pagination && data?.pagination?.totalCount} Jobs results</h4>
+                <h4 className='sm:-text-base lg:text-lg xl:text-xl font-thin'>{data?.pagination && data?.pagination?.totalCount} Jobs results</h4>
                 <ToolTip text={'filters'} >
                     <button onClick={showMenu ? closeMenu : openMenu} className='text-accent-600 font-semibold text-sm  lg:hidden'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={20} height={20} color={"#000000"} fill={"none"}>

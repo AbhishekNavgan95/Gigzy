@@ -18,9 +18,9 @@ const Header = () => {
 
     return (
         <div className='w-full absolute top-0'>
-            <nav className='flex justify-between items-center px-3 container mx-auto bg-transparent py-5'>
+            <nav className='flex border-b border-black-200 justify-between items-center px-3 container mx-auto bg-transparent py-3 md:py-5'>
                 <Link>
-                    <h1 className='font-space text-4xl font-extrabold text-accent-600'>Gigzy</h1>
+                    <h1 className='font-space text-2xl lg:text-4xl font-extrabold text-accent-600'>Gigzy</h1>
                 </Link>
 
                 <div className='flex items-center gap-3'>
@@ -33,7 +33,7 @@ const Header = () => {
                         {
                             user?.unsafeMetadata?.role === 'recruiter' && (
                                 <Link to='/post-job'>
-                                    <Button variant="secondary">
+                                    <Button size='sm' variant="secondary">
                                         Post Job
                                     </Button>
                                 </Link>

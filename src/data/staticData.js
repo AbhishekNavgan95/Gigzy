@@ -433,8 +433,8 @@ export const industriesNames = [
 ];
 
 export const educationLevels = [
-  "10th Pass",
-  "12th Pass",
+  "SSC",
+  "HSC",
   "Diploma",
   "Graduate",
   "Postgraduate",

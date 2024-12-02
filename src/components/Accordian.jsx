@@ -13,17 +13,17 @@ const Accordion = () => {
     };
 
     return (
-        <div className="space-y-6 max-w-6xl mx-auto mt-4 px-3">
+        <div className="space-y-4 md:space-y-6 max-w-6xl mx-auto mt-4 px-3">
             {accordionData.map((item, index) => (
-                <button key={item.id} onClick={() => toggleAccordion(index)} className="shadow-md p-6 w-full bg-white rounded-lg">
+                <button key={item.id} onClick={() => toggleAccordion(index)} className="shadow-md p-4 sm:p-5 md:p-6 w-full bg-white rounded-lg">
                     <div
                         type="button"
-                        className="w-full text-base text-left font-semibold bg-white flex items-center transition-all"
+                        className="w-full text-sm sm:text-lg md:text-base text-left md:font-semibold bg-white flex items-center transition-all"
                     >
                         <span className="mr-4">{item.question}</span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className={`w-4 fill-current ml-auto transition-transform ${activeIndex === index ? 'rotate-180' : ''}`}
+                            className={`w-3 md:w-4 fill-current ml-auto transition-transform ${activeIndex === index ? 'rotate-180' : ''}`}
                             viewBox="0 0 24 24"
                         >
                             <path

@@ -19,9 +19,7 @@ export async function getJobs(
     const supabase = await supabaseClient(token);
 
     // Start building the base query
-    let baseQuery = supabase
-      .from("job")
-      .select("id", { count: "exact" }); // Minimal select with count for total rows
+    let baseQuery = supabase.from("job").select("id", { count: "exact" }); // Minimal select with count for total rows
 
     // Include filters in the base query
     let companyIds = [];
@@ -122,7 +120,7 @@ export async function getJobs(
     const end = start + limit - 1;
     dataQuery = dataQuery.range(start, end);
 
-    if(sortOption === 'date') {
+    if (sortOption === "date") {
       dataQuery = dataQuery.order("created_at", { ascending: true });
     }
 
@@ -151,5 +149,26 @@ export async function getJobs(
         currentPage: page,
       },
     };
+  }
+}
+
+export async function getJobDetails(token, { jobId = null }) {
+  try {
+    const supabase = await supabaseClient(token);
+
+    const { data, error } = await supabase
+      .from("job")
+      .select("*, company (*), saved_job(user_id), application: application (*)")
+      .eq("id", jobId)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (e) {
+    console.error("Error fetching job details:", e);
+    return null;
   }
 }

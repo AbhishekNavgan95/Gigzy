@@ -82,7 +82,7 @@ const JobListing = () => {
       <section className='pt-20 px-3 bg-backgroundColor-default min-h-screen'>
 
         {/* header */}
-        <div className='py-10 lg:py-20 border-y bg-white'>
+        <div className='py-5 sm:py-10 lg:py-20 border-y bg-white'>
           <div className='container px-3 mx-auto relative z-[2] flex flex-col lg:flex-row items-center w-full gap-y-5 gap-x-10'>
             <span className='w-full'>
               <h1 className='text-2xl lg:text-4xl text-center lg:text-start font-semibold text-accent-600'>Find Your Dream Job</h1>
@@ -90,7 +90,12 @@ const JobListing = () => {
             </span>
             {
               isLoaded && user?.unsafeMetadata?.role === 'recruiter' &&
-              <span className='w-max'>
+              <span className='grid place-items-center w-full'>
+                <span className='w-full flex text-black-400 items-center gap-3 pb-5'>
+                  <span className='w-full bg-black-200 h-[1px]'></span>
+                  or
+                  <span className='w-full bg-black-200 h-[1px]'></span>
+                </span>
                 <Button>Post a Job</Button>
               </span>
             }

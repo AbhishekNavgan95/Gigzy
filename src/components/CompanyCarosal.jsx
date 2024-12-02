@@ -12,7 +12,7 @@ import Autoplay from "embla-carousel-autoplay"
 const CompanyCarosal = () => {
 
     return (
-        <section className='mx-auto relative container py-5 my-5 lg:my-20 select-none cursor-grab'>
+        <section className='mx-auto relative container py-10 my-5 md:my-10 lg:my-20 select-none cursor-grab'>
             <span className='absolute pointer-events-none top-0 left-0 w-[150px] h-[100%] z-[2] bg-gradient-to-r  from-backgroundColor-default to-transparent '></span>
             <span className='absolute pointer-events-none top-0 right-0 w-[150px] h-[100%] z-[2] bg-gradient-to-l  from-backgroundColor-default to-transparent '></span>
             <Carousel
