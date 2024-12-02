@@ -54,7 +54,7 @@ const SearchFilter = ({
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     type="text"
-                    className="w-full text-lg outline-none px-2 bg-transparent"
+                    className="w-full text-base md:text-lg outline-none px-2 bg-transparent"
                     placeholder="Search for jobs or keywords."
                     aria-label="Search for jobs or keywords"
                 />
@@ -63,7 +63,7 @@ const SearchFilter = ({
                 </button>
             </span>
 
-            <div className='flex gap-x-3 '>
+            <div className='flex flex-col sm:flex-row justify-between gap-3 '>
 
                 {/* Location Dropdown */}
                 <span className="flex gap-1 w-full justify-center items-center">
