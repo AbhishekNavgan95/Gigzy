@@ -5,7 +5,7 @@ import { FaLocationArrow } from "react-icons/fa";
 const HighLights = () => {
 
     return (
-        <section className='container px-10 py-10 my-10 mx-auto flex items-center justify-between lg:flex-row flex-col gap-10'>
+        <section className='container px-10 pt-10 md:py-10 my-10 mx-auto flex items-center justify-between lg:flex-row flex-col gap-10'>
             <div className='space-y-5 lg:w-[50%] flex flex-col items-center lg:items-start'>
                 <span type="button" className="flex w-max items-center gap-x-3 text-accent-600 text-sm bg-white border px-3 py-1.5 tracking-wide rounded-full">
                     <FaLocationArrow />
