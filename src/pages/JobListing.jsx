@@ -83,20 +83,20 @@ const JobListing = () => {
 
         {/* header */}
         <div className='py-5 sm:py-10 lg:py-20 border-y bg-white'>
-          <div className='container px-3 mx-auto relative z-[2] flex flex-col lg:flex-row items-center w-full gap-y-5 gap-x-10'>
+          <div className='container px-3 mx-auto relative z-[2] flex flex-col items-center w-full gap-y-5 gap-x-10'>
             <span className='w-full'>
               <h1 className='text-2xl lg:text-4xl text-center lg:text-start font-semibold text-accent-600'>Find Your Dream Job</h1>
               <p className='text-sm lg:text-base text-center mx-auto md:mx-0 w-[90%] lg:text-start mt-3 text-black-600'>Looking for a perfect job? Browse through latest job openings and apply with just few clicks.</p>
             </span>
             {
               isLoaded && user?.unsafeMetadata?.role === 'recruiter' &&
-              <span className='grid place-items-center w-full'>
+              <span className='grid place-items-center lg:place-items-start w-full'>
                 <span className='w-full flex text-black-400 items-center gap-3 pb-5'>
                   <span className='w-full bg-black-200 h-[1px]'></span>
                   or
                   <span className='w-full bg-black-200 h-[1px]'></span>
                 </span>
-                <Button>Post a Job</Button>
+                <Button>Post a new job</Button>
               </span>
             }
           </div>
