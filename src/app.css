@@ -62,3 +62,14 @@
   bottom: 30%;
   right: 20%;
 }
+
+
+.wmde-markdown {
+  color: rgb(0, 0, 0) !important;
+  background-color: #ffffff !important;
+}
+.wmde-markdown > * {
+  list-style-type: disc;
+  color: rgb(0, 0, 0) !important;
+  background-color: #ffffff !important;
+}

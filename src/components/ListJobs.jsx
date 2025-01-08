@@ -66,7 +66,7 @@ const ListJobs = ({
             </div>
             <div className='flex flex-col gap-3 w-full'>
                 {
-                    isLoaded && data.jobs.map((job) => {
+                    isLoaded && data?.jobs?.map((job) => {
                         return (
                             <div key={job.id}>
                                 <JobCard job={job} saved={job?.saved_job?.some((e) => e?.user_id === user?.id)} />

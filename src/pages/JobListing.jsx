@@ -88,7 +88,7 @@ const JobListing = () => {
               <h1 className='text-2xl lg:text-4xl text-center lg:text-start font-semibold text-accent-600'>Find Your Dream Job</h1>
               <p className='text-sm lg:text-base text-center mx-auto md:mx-0 w-[90%] lg:text-start mt-3 text-black-600'>Looking for a perfect job? Browse through latest job openings and apply with just few clicks.</p>
             </span>
-            {
+            {/* {
               isLoaded && user?.unsafeMetadata?.role === 'recruiter' &&
               <span className='grid place-items-center lg:place-items-start w-full'>
                 <span className='w-full flex text-black-400 items-center gap-3 pb-5'>
@@ -98,7 +98,7 @@ const JobListing = () => {
                 </span>
                 <Button>Post a new job</Button>
               </span>
-            }
+            } */}
           </div>
         </div>
 

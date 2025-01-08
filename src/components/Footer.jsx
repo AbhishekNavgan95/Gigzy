@@ -83,7 +83,7 @@ const Footer = () => {
                                 data-name="16" data-original="#000000"></path>
                         </svg>
                         </h4>
-                        <ul c
+                        <ul 
                             className={`space-y-5 mt-6 ${openDropdown === 'platforms' ? 'block' : 'hidden'
                                 } sm:block`}>
                             <li>

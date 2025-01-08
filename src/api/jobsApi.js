@@ -154,6 +154,12 @@ export async function getJobs(
 
 export async function getJobDetails(token, { jobId = null }) {
   try {
+    console.log("here 2")
+
+    if(!jobId) {
+      throw new Error("Job ID is required");
+    }
+
     const supabase = await supabaseClient(token);
 
     const { data, error } = await supabase
@@ -166,6 +172,28 @@ export async function getJobDetails(token, { jobId = null }) {
       throw error;
     }
 
+    return data;
+  } catch (e) {
+    console.error("Error fetching job details:", e);
+    return null;
+  }
+}
+
+export async function updateJobStatus(token, { jobId = null }, isOpen) {
+  try {
+    const supabase = await supabaseClient(token);
+
+    const { data, error } = await supabase
+      .from("job")
+      .update({ status: isOpen ? "Active" : "Inactive" })
+      .eq("id", jobId)
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+    
     return data;
   } catch (e) {
     console.error("Error fetching job details:", e);
