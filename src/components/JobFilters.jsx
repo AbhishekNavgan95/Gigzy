@@ -30,7 +30,7 @@ const JobFilters = ({
 
     return (
         <div className='flex flex-col gap-3 w-full h-full lg:w-max shadow-md '>
-            <div onClick={closeMenu} className={`${showMenu ? "pointer-events-auto opacity-1" : "pointer-events-none opacity-0"} overflow-x-auto overflow-y-scroll lg:overflow-y-auto lg:pointer-events-auto lg:rounded-lg fixed lg:opacity-100 lg:static inset-0 lg:inset-full h-lvh lg:h-full z-[4] bg-backgroundColor-transparent`}>
+            <div onClick={closeMenu} className={`${showMenu ? "pointer-events-auto opacity-1" : "pointer-events-none opacity-0"} overflow-x-auto overflow-y-scroll lg:overflow-y-auto lg:pointer-events-auto lg:rounded-lg fixed lg:opacity-100 lg:static inset-0 lg:inset-full h-lvh lg:h-full z-[4] bg-purple-transparent`}>
                 <div onClick={(e) => e.stopPropagation()} className={`flex flex-col gap-y-5 ${showMenu ? 'translate-x-0' : 'translate-x-[-100%]'} lg:translate-x-0 transition-all duration-300 ease-in-out w-max lg:w-[320px] p-5 shadow-md bg-white rounded-md`}>
                     {/* comapny */}
                     <span className='space-y-3'>

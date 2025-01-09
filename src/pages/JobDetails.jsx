@@ -1,7 +1,8 @@
 import { getJobDetails } from '@/api/jobsApi';
 import useFetch from '@/hooks/use-fetch';
 import React, { useEffect, useState } from 'react'
-import { FaBook } from 'react-icons/fa6';
+import { FaBook, FaStar, FaStarHalfStroke } from 'react-icons/fa6';
+import { FaRegBookmark, FaBookmark } from "react-icons/fa6";
 import { useParams } from 'react-router-dom'
 import { MdVerified } from "react-icons/md";
 import MDEditor from '@uiw/react-md-editor';
@@ -9,6 +10,11 @@ import { updateJobStatus } from '@/api/jobsApi';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useUser } from '@clerk/clerk-react';
+import { Button } from '@/components/ui/button';
+import ToolTip from '@/components/ToolTip';
+import Apply from '@/components/Apply';
+import { saveJob } from '@/api/saveJobApi';
+import SaveJob from '@/components/SaveJob';
 
 const JobDetails = () => {
 
@@ -18,13 +24,15 @@ const JobDetails = () => {
   const { data: jobData, loading: jobDataLoading, fn: fnGetJobDetails } = useFetch(getJobDetails, { jobId: id });
   const { data: statusData, loading: loadingJobStatus, fn: fnUpdateJobStatus } = useFetch(updateJobStatus, { jobId: id });
 
+  console.log("job : ", jobData)
   const handleStatusChange = async (val) => {
     const isOpen = val === "Active";
-    const res  = await fnUpdateJobStatus(isOpen);
+    const res = await fnUpdateJobStatus(isOpen);
     if (res) {
       jobData.status = jobData.status === "Active" ? "Inactive" : "Active";
     }
   }
+
 
   useEffect(() => {
     if (id) fnGetJobDetails();
@@ -38,14 +46,33 @@ const JobDetails = () => {
     <section className='max-w-[740px] mx-auto pt-36 px-3'>
 
       {/* header */}
-      <div className='flex items-center gap-5 mb-8'>
-        <span className='shadow-lg rounded-lg border border-black-400 p-2 bg-white'>
-          <img className='w-14 rounded-lg object-cover' src={jobData?.company?.logo_url} alt="logo" />
-        </span>
-        <span>
-          <h4 className='flex gap-1 items-center'>{jobData?.company?.name} <MdVerified /></h4>
-          <h2 className='text-3xl font-semibold'>{jobData?.title}</h2>
-        </span>
+      <div className='flex items-center justify-between gap-5 mb-8'>
+        <div className='flex items-center gap-5'>
+          <span className='shadow-lg rounded-lg border border-black-400 p-2 bg-white'>
+            <img className='w-14 rounded-lg object-cover' src={jobData?.company?.logo_url} alt="logo" />
+          </span>
+          <span className='justify-self-start'>
+            <h4 className='flex gap-1 items-center'>{jobData?.company?.name} <MdVerified /></h4>
+            <h2 className='text-3xl font-semibold'>{jobData?.title}</h2>
+          </span>
+        </div>
+        {
+          jobData.recruiter_id !== user.id && (
+            <div className='flex items-center gap-3'>
+              <SaveJob 
+                jobSaved={jobData?.saved_job?.some((job) => job.user_id === user.id)} 
+                job={jobData}
+                user={user}
+              />
+              <Apply
+                job={jobData}
+                user={user}
+                fetchJob={fnGetJobDetails}
+                applied={jobData?.applications?.find((j) => j.candidate_id == user.id)}
+              />
+            </div>
+          )
+        }
       </div>
 
       {/* status */}
@@ -73,19 +100,22 @@ const JobDetails = () => {
         </p>
       </div>
 
-      <div className='mb-8'>
-        {
-          !jobDataLoading &&
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="airplane-mode"
-              checked={jobData?.status === "Active"}
-              onCheckedChange={() => handleStatusChange(jobData?.status === "Active" ? "Inactive" : "Active")}
-            />
-            <Label htmlFor="airplane-mode">Opening Status: {jobData.status === 'Active' ? 'Open' : 'Closed'}</Label>
-          </div>
-        }
-      </div>
+      {
+        jobData.recruiter_id === user.id &&
+        <div className='mb-8'>
+          {
+            !jobDataLoading &&
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="airplane-mode"
+                checked={jobData?.status === "Active"}
+                onCheckedChange={() => handleStatusChange(jobData?.status === "Active" ? "Inactive" : "Active")}
+              />
+              <Label htmlFor="airplane-mode">Opening Status: {jobData.status === 'Active' ? 'Open' : 'Closed'}</Label>
+            </div>
+          }
+        </div>
+      }
 
       {/* details */}
       <div>
