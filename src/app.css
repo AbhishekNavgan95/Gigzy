@@ -69,7 +69,7 @@
   background-color: #ffffff !important;
 }
 .wmde-markdown > * {
-  list-style-type: disc;
+  list-style-type: circle;
   color: rgb(0, 0, 0) !important;
   background-color: #ffffff !important;
 }

@@ -154,7 +154,6 @@ export async function getJobs(
 
 export async function getJobDetails(token, { jobId = null }) {
   try {
-    console.log("here 2")
 
     if(!jobId) {
       throw new Error("Job ID is required");

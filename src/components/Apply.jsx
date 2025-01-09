@@ -22,7 +22,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from './ui/input'
 import { educationLevels, graduationYears } from '@/data/staticData'
 import { Checkbox } from './ui/checkbox'
+import { z } from 'zod'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
+const schema = z.object({
+    name: z.string().min(1, "Name cannot be empty").max(50, "Name too long"),
+    email: z.string().email("Invalid email address"),
+    educationLevel: z.string().min(1, "Education level cannot be empty"),
+    specialization: z.string().min(1, "specialization cannot be empty"),
+    institution: z.string().optional(),
+    graduationYear: z.string().optional(),
+    experience: z.string().optional(),
+    noticePeriod: z.string().optional(),
+    linkedin: z.string(),
+    // todo
+    resume: z.any().refine((file) => file[0] && file[0].type === 'application/pdf', { message: 'Only pdf documents are allowed' }),
+})
 
 const Apply = ({
     job = {},
@@ -32,8 +48,15 @@ const Apply = ({
 }) => {
     const [isFresher, setIsFresher] = useState(false);
 
+    const { register, handleSubmit, control, formState: { errors }, reset } = useForm({ resolver: zodResolver(schema) })
+
+    const submitHandler = (data) => {
+        console.log("data : ", data);
+    }
+
     return (
         <Drawer open={applied ? false : undefined}>
+
             <Button size='' className='px-7' disabled={job?.status !== 'Active' || applied}>
                 <DrawerTrigger>
                     {
@@ -41,6 +64,7 @@ const Apply = ({
                     }
                 </DrawerTrigger>
             </Button>
+
             <DrawerContent className='my-14'>
                 <DrawerHeader className='container mx-auto'>
                     <DrawerTitle>Apply for {job?.title} at {job?.company?.name}</DrawerTitle>
@@ -48,44 +72,83 @@ const Apply = ({
                 </DrawerHeader>
 
                 <div className='container mx-auto px-3'>
-                    <form className=''>
+                    <form className='' onSubmit={handleSubmit(submitHandler)}>
 
+                        {/* name & email */}
                         <div className='flex items-center gap-3 w-full'>
                             <span className='w-full space-y-1'>
                                 <label htmlFor="name">Name</label>
-                                <Input type="text" id='name' placeholder="Name" />
+                                <Input
+                                    type="text"
+                                    id='name'
+                                    placeholder="Name"
+                                    {...register('name')}
+                                />
+                                {
+                                    errors?.name && (
+                                        <span className='text-red-700'>{errors.name?.message}</span>
+                                    )
+                                }
                             </span>
                             <span className='w-full space-y-1'>
                                 <label htmlFor="mail">Email</label>
-                                <Input type="email" id='mail' placeholder="email" />
+                                <Input
+                                    type="email"
+                                    id='mail'
+                                    placeholder="email"
+                                    {...register('email')}
+                                />
+                                {
+                                    errors?.email && (
+                                        <span className='text-red-700'>{errors.email?.message}</span>
+                                    )
+                                }
                             </span>
                         </div>
 
+                        {/* education & Specialization */}
                         <div className='flex items-center gap-3 w-full mt-3'>
                             <span className='w-full space-y-1'>
                                 <label htmlFor="education-level">Highest Education</label>
-                                <Select id='education-level' className=''>
-                                    <SelectTrigger className="w-full border">
-                                        <SelectValue placeholder="Highest Qualification" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {
-                                                educationLevels.map((e, index) => (
-                                                    <SelectItem key={e + index} value={e}>{e}</SelectItem>
-                                                ))
-                                            }
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                <Controller
+                                    name='educationLevel'
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select onValueChange={field.onChange} defaultValue={field.value} id='education-level' className=''>
+                                            <SelectTrigger className="w-full border">
+                                                <SelectValue placeholder="Highest Qualification" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {
+                                                        educationLevels.map((e, index) => (
+                                                            <SelectItem key={e + index} value={e}>{e}</SelectItem>
+                                                        ))
+                                                    }
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    )}
+                                />
+                                {
+                                    errors?.educationLevel && (
+                                        <span className='text-red-700'>{errors.educationLevel?.message}</span>
+                                    )
+                                }
                             </span>
 
                             <span className='w-full space-y-1'>
                                 <label htmlFor="specialization">Specialization</label>
-                                <Input type="text" id='specialization' placeholder="Information Technology, Architecture, Commerce" />
+                                <Input {...register('specialization')} type="text" id='specialization' placeholder="Information Technology, Architecture, Commerce" />
+                                {
+                                    errors?.specialization && (
+                                        <span className='text-red-700'>{errors.specialization?.message}</span>
+                                    )
+                                }
                             </span>
                         </div>
 
+                        {/* isfresher filter */}
                         <div className='flex items-center gap-3 w-full mt-3'>
                             <span className='w-full flex items-center gap-2'>
                                 <Checkbox
@@ -99,27 +162,44 @@ const Apply = ({
 
                         {
                             isFresher &&
+                            // Institute Name & graduationYear
                             <div className='flex items-center gap-3 w-full mt-3'>
                                 <span className='w-full space-y-1' >
                                     <label htmlFor="institution">Institute Name</label>
-                                    <Input type="email" id='institution' placeholder="Institution" />
+                                    <Input {...register('institution')} type="text" id='institution' placeholder="Institution" />
+                                    {
+                                        errors?.institution && (
+                                            <span className='text-red-700'>{errors.institution?.message}</span>
+                                        )
+                                    }
                                 </span>
-                                <span className='w-full space-y-1'>
+                                <span {...register('graduationYear')} className='w-full space-y-1'>
                                     <label htmlFor="graduation-year">Graduation Year</label>
-                                    <Select id='graduation-year' className=''>
-                                        <SelectTrigger className="w-full border">
-                                            <SelectValue placeholder="Year of Graduation" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {
-                                                    graduationYears.map((e, index) => (
-                                                        <SelectItem value={e.toString()} key={index}>{e}</SelectItem>
-                                                    ))
-                                                }
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <Controller
+                                        name='graduationYear'
+                                        control={control}
+                                        render={({ field }) => (
+                                            <Select onValueChange={field.onChange} defaultValue={field.value} id='graduation-year' className=''>
+                                                <SelectTrigger className="w-full border">
+                                                    <SelectValue placeholder="Year of Graduation" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {
+                                                            graduationYears.map((e, index) => (
+                                                                <SelectItem value={e.toString()} key={index}>{e}</SelectItem>
+                                                            ))
+                                                        }
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        )}
+                                    />
+                                    {
+                                        errors?.graduationYear && (
+                                            <span className='text-red-700'>{errors.graduationYear?.message}</span>
+                                        )
+                                    }
                                 </span>
                             </div>
                         }
@@ -127,49 +207,76 @@ const Apply = ({
 
                         {
                             !isFresher && (
+                                // Year of Experience & Notice Period
                                 <div className='flex items-center gap-3 w-full mt-3'>
                                     <span className='w-full space-y-1'>
                                         <label htmlFor="experience">Year of Experience</label>
-                                        <Input type="number" id='experience' min='0' placeholder="0" />
+                                        <Input {...register('experience')} type="number" id='experience' min='0' placeholder="0" />
+                                        {
+                                            errors?.experience && (
+                                                <span className='text-red-700'>{errors.experience?.message}</span>
+                                            )
+                                        }
                                     </span>
                                     <span className='w-full space-y-1'>
                                         <label htmlFor="notice-period">Notice Period</label>
-                                        <Select id='notice-period' className=''>
-                                            <SelectTrigger className="w-full border">
-                                                <SelectValue placeholder="0 Months" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {
-                                                        Array.from({ length: 7 }, (_, index) => index).map((e, index) => (
-                                                            <SelectItem key={e} value={e + ' Months'}>{e} Months</SelectItem>
-                                                        ))
-                                                    }
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
+                                        <Controller
+                                            name='noticePeriod'
+                                            control={control}
+                                            render={({ field }) => (
+                                                <Select onValueChange={field.onChange} defaultValue={field.value} id='notice-period' className=''>
+                                                    <SelectTrigger className="w-full border">
+                                                        <SelectValue placeholder="0 Months" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectGroup>
+                                                            {
+                                                                Array.from({ length: 7 }, (_, index) => index).map((e, index) => (
+                                                                    <SelectItem key={e} value={e + ' Months'}>{e} Months</SelectItem>
+                                                                ))
+                                                            }
+                                                        </SelectGroup>
+                                                    </SelectContent>
+                                                </Select>
+                                            )}
+                                        />
+                                        {
+                                            errors?.noticePeriod && (
+                                                <span className='text-red-700'>{errors.noticePeriod?.message}</span>
+                                            )
+                                        }
                                     </span>
                                 </div>
                             )
                         }
 
+                        {/* LinkedIn Profile & Resume */}
                         <div className='flex items-center gap-3 w-full mt-3'>
                             <span className='w-full space-y-1'>
                                 <label htmlFor="linkedin">LinkedIn Profile Url</label>
-                                <Input type='text' id='linkedin' placeholder='www.linkedin.com/xyz' />
+                                <Input {...register('linkedin')} type='text' id='linkedin' placeholder='www.linkedin.com/xyz' />
+                                {
+                                    errors?.linkedin && (
+                                        <span className='text-red-700'>{errors.linkedin?.message}</span>
+                                    )
+                                }
                             </span>
                             <span className='w-full space-y-1 flex flex-col'>
                                 <label htmlFor="resume">CV / Resume</label>
-                                <Input type='file' id='resume' accept=".pdf" />
+                                <Input {...register('resume')} type='file' id='resume' accept=".pdf" />
+                                {
+                                    errors?.resume && (
+                                        <span className='text-red-700'>{errors.resume?.message}</span>
+                                    )
+                                }
                             </span>
                         </div>
 
-
+                        <Button className='w-full mt-8' type='submit'>Submit</Button>
                     </form>
                 </div>
 
                 <DrawerFooter className='container mx-auto'>
-                    <Button>Submit</Button>
                     <DrawerClose asChild>
                         <Button variant="outline">Cancel</Button>
                     </DrawerClose>

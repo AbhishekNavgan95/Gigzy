@@ -24,7 +24,7 @@ const JobDetails = () => {
   const { data: jobData, loading: jobDataLoading, fn: fnGetJobDetails } = useFetch(getJobDetails, { jobId: id });
   const { data: statusData, loading: loadingJobStatus, fn: fnUpdateJobStatus } = useFetch(updateJobStatus, { jobId: id });
 
-  console.log("job : ", jobData)
+  // console.log("job : ", jobData)
   const handleStatusChange = async (val) => {
     const isOpen = val === "Active";
     const res = await fnUpdateJobStatus(isOpen);
@@ -43,22 +43,22 @@ const JobDetails = () => {
   if (!jobDataLoading && !jobData) return <div>Data not found</div>
 
   return (
-    <section className='max-w-[740px] mx-auto pt-36 px-3'>
+    <section className='container md:max-w-[740px] mx-auto pt-24 md:pt-36 py-12 px-3 '>
 
       {/* header */}
-      <div className='flex items-center justify-between gap-5 mb-8'>
+      <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-5 mb-8'>
         <div className='flex items-center gap-5'>
           <span className='shadow-lg rounded-lg border border-black-400 p-2 bg-white'>
-            <img className='w-14 rounded-lg object-cover' src={jobData?.company?.logo_url} alt="logo" />
+            <img className='w-10 sm:w-14 rounded-lg object-cover' src={jobData?.company?.logo_url} alt="logo" />
           </span>
           <span className='justify-self-start'>
             <h4 className='flex gap-1 items-center'>{jobData?.company?.name} <MdVerified /></h4>
-            <h2 className='text-3xl font-semibold'>{jobData?.title}</h2>
+            <h2 className='text-2xl sm:text-3xl font-semibold'>{jobData?.title}</h2>
           </span>
         </div>
         {
           jobData.recruiter_id !== user.id && (
-            <div className='flex items-center gap-3'>
+            <div className='flex flex-row-reverse md:flex-row items-center gap-3'>
               <SaveJob 
                 jobSaved={jobData?.saved_job?.some((job) => job.user_id === user.id)} 
                 job={jobData}
@@ -133,17 +133,11 @@ const JobDetails = () => {
       {/* skills */}
       <div>
         <h3 className='text-xl font-semibold mt-5'>Skills</h3>
-        <ul className='list-disc list-inside mt-3'>
-          {
-            jobData?.skills_required?.split(",")?.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))
-          }
-        </ul>
+        <p>{jobData?.skills_required}</p>
       </div>
 
       {/* requirements */}
-      <div>
+      <div className=''>
         <h3 className='text-xl font-semibold mt-5'>Requirements</h3>
         <MDEditor.Markdown source={jobData?.requirements}
           className='text-lg mt-3'
