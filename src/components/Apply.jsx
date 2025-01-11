@@ -25,18 +25,25 @@ import { Checkbox } from './ui/checkbox'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import useFetch from '@/hooks/use-fetch'
+import { applyForJob } from '@/api/applicationApi'
+import { Textarea } from './ui/textarea'
+import { useToast } from '@/hooks/use-toast'
 
 const schema = z.object({
     name: z.string().min(1, "Name cannot be empty").max(50, "Name too long"),
     email: z.string().email("Invalid email address"),
     educationLevel: z.string().min(1, "Education level cannot be empty"),
     specialization: z.string().min(1, "specialization cannot be empty"),
+    coverLetter: z.string().min(20, 'Cover letter must be atleast 20 charecters'),
     institution: z.string().optional(),
     graduationYear: z.string().optional(),
     experience: z.string().optional(),
     noticePeriod: z.string().optional(),
-    linkedin: z.string(),
-    // todo
+    linkedin: z.string().min(1, "linkedin url cannot be empty").regex(
+        /^https?:\/\/(www\.)?linkedin\.com\/(in|company)\/[a-zA-Z0-9-_.]+\/?$/,
+        "Invalid LinkedIn profile URL"
+    ),
     resume: z.any().refine((file) => file[0] && file[0].type === 'application/pdf', { message: 'Only pdf documents are allowed' }),
 })
 
@@ -49,9 +56,38 @@ const Apply = ({
     const [isFresher, setIsFresher] = useState(false);
 
     const { register, handleSubmit, control, formState: { errors }, reset } = useForm({ resolver: zodResolver(schema) })
+    const { error, data, loading, fn: apply } = useFetch(applyForJob)
+    const { toast } = useToast();
 
-    const submitHandler = (data) => {
-        console.log("data : ", data);
+    const submitHandler = async (data) => {
+        const res = await apply({
+            email: data?.email,
+            candidate_id: user.id,
+            job_id: job.id,
+            status: 'pending',
+            education_level: data?.educationLevel,
+            cover_letter: data?.coverLetter,
+            graduation_year: data?.graduationYear,
+            name: data?.name,
+            experience: data?.experience,
+            institution: data?.institution,
+            linkedin: data.linkedin,
+            notice_period: data.noticePeriod,
+            resume: data?.resume[0],
+            specialization: data?.specialization,
+        })
+
+        if (res) {
+            reset();
+            toast({
+                title: 'Your Application has been submitted succesfully!'
+            })
+            fetchJob()
+        } else {
+            toast({
+                title: 'Something went wrong while submitting the Application!'
+            })
+        }
     }
 
     return (
@@ -267,6 +303,19 @@ const Apply = ({
                                 {
                                     errors?.resume && (
                                         <span className='text-red-700'>{errors.resume?.message}</span>
+                                    )
+                                }
+                            </span>
+                        </div>
+
+                        {/* cover letter */}
+                        <div className='w-full mt-3'>
+                            <span className='w-full space-y-1'>
+                                <label htmlFor="coverLetter">Cover letter</label>
+                                <Textarea {...register('coverLetter')} rows='5' name='coverLetter' id='coverLetter' placeholder="start writing here..." />
+                                {
+                                    errors?.coverLetter && (
+                                        <span className='text-red-700'>{errors.coverLetter?.message}</span>
                                     )
                                 }
                             </span>

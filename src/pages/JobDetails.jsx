@@ -24,7 +24,6 @@ const JobDetails = () => {
   const { data: jobData, loading: jobDataLoading, fn: fnGetJobDetails } = useFetch(getJobDetails, { jobId: id });
   const { data: statusData, loading: loadingJobStatus, fn: fnUpdateJobStatus } = useFetch(updateJobStatus, { jobId: id });
 
-  // console.log("job : ", jobData)
   const handleStatusChange = async (val) => {
     const isOpen = val === "Active";
     const res = await fnUpdateJobStatus(isOpen);
@@ -32,7 +31,6 @@ const JobDetails = () => {
       jobData.status = jobData.status === "Active" ? "Inactive" : "Active";
     }
   }
-
 
   useEffect(() => {
     if (id) fnGetJobDetails();
@@ -59,8 +57,8 @@ const JobDetails = () => {
         {
           jobData.recruiter_id !== user.id && (
             <div className='flex flex-row-reverse md:flex-row items-center gap-3'>
-              <SaveJob 
-                jobSaved={jobData?.saved_job?.some((job) => job.user_id === user.id)} 
+              <SaveJob
+                jobSaved={jobData?.saved_job?.some((job) => job.user_id === user.id)}
                 job={jobData}
                 user={user}
               />
@@ -68,7 +66,7 @@ const JobDetails = () => {
                 job={jobData}
                 user={user}
                 fetchJob={fnGetJobDetails}
-                applied={jobData?.applications?.find((j) => j.candidate_id == user.id)}
+                applied={jobData?.application?.find((j) => j.candidate_id === user.id)}
               />
             </div>
           )
