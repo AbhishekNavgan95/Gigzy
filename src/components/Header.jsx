@@ -55,6 +55,11 @@ const Header = () => {
                                     labelIcon={<FaSave />}
                                     href='/saved-jobs'
                                 />
+                                <UserButton.Link
+                                    label=''
+                                    labelIcon={<FaSave />}
+                                    href='/saved-jobs'
+                                />
                             </UserButton.MenuItems>
                         </UserButton>
                     </SignedIn>

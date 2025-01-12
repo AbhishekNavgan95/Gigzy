@@ -3,7 +3,7 @@ import useFetch from '@/hooks/use-fetch';
 import React, { useEffect, useState } from 'react'
 import { FaBook, FaStar, FaStarHalfStroke } from 'react-icons/fa6';
 import { FaRegBookmark, FaBookmark } from "react-icons/fa6";
-import { useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { MdVerified } from "react-icons/md";
 import MDEditor from '@uiw/react-md-editor';
 import { updateJobStatus } from '@/api/jobsApi';
@@ -15,6 +15,16 @@ import ToolTip from '@/components/ToolTip';
 import Apply from '@/components/Apply';
 import { saveJob } from '@/api/saveJobApi';
 import SaveJob from '@/components/SaveJob';
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Slash } from 'lucide-react';
 
 const JobDetails = () => {
 
@@ -41,7 +51,29 @@ const JobDetails = () => {
   if (!jobDataLoading && !jobData) return <div>Data not found</div>
 
   return (
-    <section className='container md:max-w-[740px] mx-auto pt-24 md:pt-36 py-12 px-3 '>
+    <section className='container md:max-w-[740px] mx-auto pt-24 md:pt-28 py-12 px-3 '>
+      
+      <Breadcrumb className='mb-7'>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbSeparator>
+            <Slash />
+          </BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/jobs/1">Explore</BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbSeparator>
+            <Slash />
+          </BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbPage>{jobData.title}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       {/* header */}
       <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-5 mb-8'>
@@ -70,6 +102,14 @@ const JobDetails = () => {
               />
             </div>
           )
+        }
+        {
+          jobData.recruiter_id === user.id &&
+          <Link state={jobData} to={`/job/${jobData.id}/applications`}>
+            <Button>
+              View Applications
+            </Button>
+          </Link>
         }
       </div>
 
@@ -116,7 +156,7 @@ const JobDetails = () => {
       }
 
       {/* details */}
-      <div>
+      <div className='md:text-lg'>
         <p><span className='font-semibold'>Experience required:</span> {jobData?.experience_level || "N/A"}</p>
         <p><span className='font-semibold'>Salary range:</span> {jobData?.salary_range || "N/A"}</p>
         <p><span className='font-semibold'>Location:</span> {jobData?.city}, {jobData?.state}, {jobData?.country}</p>
@@ -131,7 +171,13 @@ const JobDetails = () => {
       {/* skills */}
       <div>
         <h3 className='text-xl font-semibold mt-5'>Skills</h3>
-        <p>{jobData?.skills_required}</p>
+        <ul className='list-inside list-[circle] mt-3'>
+          {jobData?.skills_required?.split(',').map((skill, index) => (
+            <li key={index}>
+              {skill}
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* requirements */}
@@ -141,6 +187,49 @@ const JobDetails = () => {
           className='text-lg mt-3'
         />
       </div>
+
+      {
+        jobData?.company && (
+          <div >
+            <h3 className='text-xl font-semibold mt-5'>About {jobData?.company?.name}</h3>
+            <p className='mt-3'>
+              {jobData?.company?.description}
+            </p>
+          </div>
+        )
+      }
+
+      {
+        jobData?.benifits && (
+          <div>
+            <h3 className='text-xl font-semibold mt-5'>Benifits</h3>
+            <ul className='pl-5 list-[circle] mt-3'>
+              {
+                jobData?.benifits?.split(',').map((ben, i) => (
+                  <li key={i}>
+                    {
+                      ben
+                    }
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        jobData?.name && jobData?.phone && (
+          <div className='md:text-lg'>
+            <h3 className='text-xl font-semibold mt-5'>Contact for more info</h3>
+            <div className='mt-3'>
+              <p >{jobData.name}</p>
+              <a className='' href={`mailto:${jobData?.email}`}>{jobData?.email}</a>
+              <p className='' href={`tel:${jobData.phone?.replaceAll(' ', '')}`}>{jobData.phone}</p>
+            </div>
+          </div>
+        )
+      }
 
     </section>
   )

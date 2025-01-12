@@ -65,11 +65,14 @@
 
 
 .wmde-markdown {
+  font-size: 16px !important;
   color: rgb(0, 0, 0) !important;
   background-color: #ffffff !important;
 }
+
 .wmde-markdown > * {
-  list-style-type: circle;
   color: rgb(0, 0, 0) !important;
   background-color: #ffffff !important;
+  list-style-type: circle;
+  list-style-position: outside !important;
 }

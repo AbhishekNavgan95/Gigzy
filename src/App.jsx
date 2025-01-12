@@ -1,5 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { Button } from "./components/ui/button"
+import { createBrowserRouter, RouterProvider, useLocation } from "react-router-dom"
 import AppLayout from "./layouts/AppLayout"
 import LandingPage from "./pages/LandingPage"
 import OnboardingPage from "./pages/OnboardingPage"
@@ -8,6 +7,7 @@ import JobDetails from "./pages/JobDetails"
 import CreateJob from "./pages/CreateJob"
 import SavedJobs from "./pages/SavedJobs"
 import MyJobs from "./pages/MyJobs"
+import ApplicationListing from "./pages/ApplicationListing"
 import { ThemeProvider } from "./components/ui/theme-provider"
 import { ClerkProvider, Protect } from "@clerk/clerk-react"
 import { dark, shadesOfPurple } from "@clerk/themes"
@@ -38,7 +38,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/job/:id",
-        element: <JobDetails />,
+        element: <ProtectedRoute><JobDetails /></ProtectedRoute>,
+      },
+      {
+        path: "/job/:id/applications",
+        element: <ProtectedRoute><ApplicationListing /></ProtectedRoute>,
       },
       {
         path: "/post-job",
@@ -56,7 +60,9 @@ const router = createBrowserRouter([
   },
 ])
 
+
 function App() {
+
   return (
     <>
       <ClerkProvider appearance={{ baseTheme: dark }} publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">

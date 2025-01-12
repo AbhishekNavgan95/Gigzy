@@ -10,6 +10,16 @@ import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
 import ListJobs from '@/components/ListJobs'
 import Footer from '@/components/Footer'
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Slash } from 'lucide-react';
 
 const JobListing = () => {
 
@@ -80,25 +90,30 @@ const JobListing = () => {
   return (
     <>
       <section className='pt-20 px-3 bg-backgroundColor-default min-h-screen'>
-
         {/* header */}
         <div className='py-5 sm:py-10 lg:py-20 border-y bg-white'>
           <div className='container px-3 mx-auto relative z-[2] flex flex-col items-center w-full gap-y-5 gap-x-10'>
+
+            <Breadcrumb className='self-start'>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={`/jobs/${page}`}>Explore</BreadcrumbLink>
+                </BreadcrumbItem>
+
+              </BreadcrumbList>
+            </Breadcrumb>
+            
             <span className='w-full'>
               <h1 className='text-2xl lg:text-4xl text-center lg:text-start font-semibold text-accent-600'>Find Your Dream Job</h1>
               <p className='text-sm lg:text-base text-center mx-auto md:mx-0 w-[90%] lg:text-start mt-3 text-black-600'>Looking for a perfect job? Browse through latest job openings and apply with just few clicks.</p>
             </span>
-            {/* {
-              isLoaded && user?.unsafeMetadata?.role === 'recruiter' &&
-              <span className='grid place-items-center lg:place-items-start w-full'>
-                <span className='w-full flex text-black-400 items-center gap-3 pb-5'>
-                  <span className='w-full bg-black-200 h-[1px]'></span>
-                  or
-                  <span className='w-full bg-black-200 h-[1px]'></span>
-                </span>
-                <Button>Post a new job</Button>
-              </span>
-            } */}
           </div>
         </div>
 
