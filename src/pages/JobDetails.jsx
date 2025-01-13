@@ -25,11 +25,13 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Slash } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const JobDetails = () => {
 
   const { id } = useParams();
   const { isLoaded, user } = useUser()
+  const { toast } = useToast();
 
   const { data: jobData, loading: jobDataLoading, fn: fnGetJobDetails } = useFetch(getJobDetails, { jobId: id });
   const { data: statusData, loading: loadingJobStatus, fn: fnUpdateJobStatus } = useFetch(updateJobStatus, { jobId: id });
@@ -38,6 +40,9 @@ const JobDetails = () => {
     const isOpen = val === "Active";
     const res = await fnUpdateJobStatus(isOpen);
     if (res) {
+      toast({
+        title: "Status updated successfully."
+      })
       jobData.status = jobData.status === "Active" ? "Inactive" : "Active";
     }
   }
@@ -52,8 +57,8 @@ const JobDetails = () => {
 
   return (
     <section className='container md:max-w-[740px] mx-auto pt-24 md:pt-28 py-12 px-3 '>
-      
-      <Breadcrumb className='mb-7'>
+
+      <Breadcrumb className='mb-6'>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">Home</BreadcrumbLink>

@@ -22,12 +22,12 @@ const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateLi
 
     return (
         <div className='border-2 p-5 rounded-lg shadow-md'>
-            <span className='flex justify-between items-start'>
+            <span className='flex justify-between flex-col md:flex-row items-start'>
                 <div className='flex items-center gap-3'>
                     <span className='flex items-start flex-col'>
                         <span className='flex items-center gap-3'>
                             <Checkbox
-                            className='mt-3'
+                            className=''
                                 checked={updateList.includes(app.id)}
                                 onCheckedChange={() => setUpdateList((prev) => prev.includes(app.id) ? [...prev.filter((_id) => _id !== app.id)] : [...prev, app.id])}
                             />
@@ -43,7 +43,7 @@ const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateLi
                         <a href={`mailto:${app.email}`} className='ml-7 hover:underline text-sm font-light'>{app.email}</a>
                     </span>
                 </div>
-                <p className='text-sm'>{format(new Date(app.created_at))}</p>
+                <p className='text-sm self-end'>{format(new Date(app.created_at))}</p>
             </span>
 
             <hr className='mt-3' />
@@ -51,22 +51,22 @@ const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateLi
             <div className='grid grid-cols-2 my-3 gap-3'>
                 <span>
                     <h4 className='font-semibold text-sm'>Education:</h4>
-                    <p className='text-sm md:text-base font-light'>{app?.education_level}</p>
+                    <p className='text-xs md:text-base font-light'>{app?.education_level}</p>
                 </span>
                 <span>
                     <h4 className='font-semibold text-sm'>Specialization:</h4>
-                    <p className='text-sm md:text-base font-light'>{app?.specialization}</p>
+                    <p className='text-xs md:text-base font-light'>{app?.specialization}</p>
                 </span>
                 {
                     app.institution && app.graduation_year && (
                         <>
                             <span>
                                 <h4 className='font-semibold text-sm'>Institution:</h4>
-                                <p className='text-sm md:text-base font-light'>{app?.institution}</p>
+                                <p className='text-xs md:text-base font-light'>{app?.institution}</p>
                             </span>
                             <span>
                                 <h4 className='font-semibold text-sm'>Year of graduation:</h4>
-                                <p className='text-sm md:text-base font-light'>{app?.graduation_year}</p>
+                                <p className='text-xs md:text-base font-light'>{app?.graduation_year}</p>
                             </span>
                         </>
                     )
@@ -76,11 +76,11 @@ const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateLi
                         <>
                             <span>
                                 <h4 className='font-semibold text-sm '>Year of Experience:</h4>
-                                <p className='text-sm md:text-base font-light'>{app?.experience} Years</p>
+                                <p className='text-xs md:text-base font-light'>{app?.experience} Years</p>
                             </span>
                             <span>
                                 <h4 className='font-semibold text-sm '>Notice period:</h4>
-                                <p className='text-sm md:text-base font-light'>{app?.notice_period}</p>
+                                <p className='text-xs md:text-base font-light'>{app?.notice_period}</p>
                             </span>
                         </>
                     )

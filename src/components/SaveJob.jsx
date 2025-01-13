@@ -30,10 +30,6 @@ const SaveJob = ({
         setSaved(res ? true : false)
     }
 
-    // useEffect(() => {
-
-    // }, [jobSaved])
-
     return (
         <ToolTip text={'Save'}>
             <button onClick={handleSaveChange}>

@@ -98,7 +98,7 @@ const ApplicationListin = () => {
     return (
       <section className='container md:max-w-[750px] mx-auto pt-24 md:pt-28 py-12 px-3 '>
 
-        <Breadcrumb className='mb-7'>
+        <Breadcrumb className='mb-6 text-xs md:text-base'>
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -139,7 +139,7 @@ const ApplicationListin = () => {
 
         <div className='flex justify-start gap-3 sticky top-0 bg-white py-5'>
           <Select value={status} onValueChange={(value) => setStatus(value)} id='education-level' className=''>
-            <SelectTrigger className="w-max bg-accent-600 h-8 text-black-50 text-xs md:text-sm sm:text-base">
+            <SelectTrigger className="md:w-max bg-accent-600 h-8 text-black-50 text-xs md:text-sm sm:text-base">
               <SelectValue placeholder='Status' />
             </SelectTrigger>
             <SelectContent >
@@ -152,24 +152,9 @@ const ApplicationListin = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {/* 
-          <Select onValueChange={() => { }} id='education-level' className=''>
-            <SelectTrigger className="w-max bg-accent-600 h-8 text-black-50 text-xs md:text-sm sm:text-base">
-              <SelectValue placeholder='Status' />
-            </SelectTrigger>
-            <SelectContent >
-              <SelectGroup>
-                {
-                  applicationStatus?.map((e, index) => (
-                    <SelectItem key={e + index} value={e}>{e}</SelectItem>
-                  ))
-                }
-              </SelectGroup>
-            </SelectContent>
-          </Select> */}
         </div>
 
-        <div className='my-5 flex flex-col gap-5 px-1'>
+        <div className='mb-5 flex flex-col gap-5 px-1'>
           {
             applications && applications.map((app) => (
               <ApplicationCard setUpdateList={setUpdateList} updateList={updateList} key={app?.id} app={app} />
