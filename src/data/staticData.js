@@ -399,7 +399,7 @@ export const cities = [
   "Jalandhar",
   "Latur",
   "Satara",
-]
+];
 
 export const jobTypes = [
   "Permanent",
@@ -410,8 +410,8 @@ export const jobTypes = [
   "Temporary",
   "Full-Time",
   "Volunteer",
-  "Seasonal"
-]
+  "Seasonal",
+];
 
 export const industriesNames = [
   "Information Technology",
@@ -429,7 +429,8 @@ export const industriesNames = [
   "Government",
   "Logistics",
   "Marketing",
-  "Real Estate"
+  "Real Estate",
+  "Other",
 ];
 
 export const educationLevels = [
@@ -440,19 +441,17 @@ export const educationLevels = [
   "Postgraduate",
   "Doctorate",
   "Certification",
-  "Other"
+  "Other",
 ];
 
-export const graduationYears =[
-  2024,
-  2025,
-  2026,
-  2027,
-  2028,
-  2029,
-  2030,
-  2032,
-  2033,
-  2034,
-  2035,
-]
+export const graduationYears = [
+  2024, 2025, 2026, 2027, 2028, 2029, 2030, 2032, 2033, 2034, 2035,
+];
+
+export const applicationStatus = [
+  "pending",
+  "viewed",
+  "interviewing",
+  "selected",
+  "rejected",
+];

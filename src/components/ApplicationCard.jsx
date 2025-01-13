@@ -12,30 +12,43 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { applicationStatus } from '@/data/staticData';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Checkbox } from './ui/checkbox';
 
-const ApplicationCard = ({ app }) => {
+const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateList }) => {
 
-    console.log("application : ", app);
+    // console.log("application : ", app);
 
     return (
         <div className='border-2 p-5 rounded-lg shadow-md'>
-            <span className='flex justify-between items-center'>
-                <span className='flex items-center gap-2'>
-                    <h3 className='text-base md:text-lg capitalize font-semibold'>{app.name}</h3>
-                    {
-                        app.institution && app.graduation_year && (
-                            <span className="flex items-center font-semibold text-accent-600 text-xs bg-accent-50 px-3 py-1 tracking-wide rounded-full">
-                                Fresher
-                            </span>
-                        )
-                    }
-                </span>
+            <span className='flex justify-between items-start'>
+                <div className='flex items-center gap-3'>
+                    <span className='flex items-start flex-col'>
+                        <span className='flex items-center gap-3'>
+                            <Checkbox
+                            className='mt-3'
+                                checked={updateList.includes(app.id)}
+                                onCheckedChange={() => setUpdateList((prev) => prev.includes(app.id) ? [...prev.filter((_id) => _id !== app.id)] : [...prev, app.id])}
+                            />
+                            <h3 className='text-base md:text-lg capitalize font-semibold'>{app.name}</h3>
+                            {
+                                app.institution && app.graduation_year && (
+                                    <span className="flex items-center font-semibold text-accent-600 text-xs bg-accent-50 px-3 py-1 tracking-wide rounded-full">
+                                        Fresher
+                                    </span>
+                                )
+                            }
+                        </span>
+                        <a href={`mailto:${app.email}`} className='ml-7 hover:underline text-sm font-light'>{app.email}</a>
+                    </span>
+                </div>
                 <p className='text-sm'>{format(new Date(app.created_at))}</p>
             </span>
 
-            <a href={`mailto:${app.email}`} className='hover:underline text-sm font-light mb-3'>{app.email}</a>
+            <hr className='mt-3' />
 
-            <div className='grid grid-cols-2 mt-3 gap-3'>
+            <div className='grid grid-cols-2 my-3 gap-3'>
                 <span>
                     <h4 className='font-semibold text-sm'>Education:</h4>
                     <p className='text-sm md:text-base font-light'>{app?.education_level}</p>
@@ -72,33 +85,37 @@ const ApplicationCard = ({ app }) => {
                         </>
                     )
                 }
-                {
-                    app.cover_letter && (
-                        <p>
-
-                        </p>
-                    )
-                }
             </div>
 
-            <div className='flex items-center gap-3 justify-between'>
-                <span className='flex gap-3 items-center'>
+            <div className='flex flex-col items-stretch md:flex-row md:items-center gap-3 justify-between'>
+                <span className='flex gap-3 justify-between items-center bg-black-100 px-3 py-2 rounded-lg'>
                     {
                         app?.cover_letter && (
-                            <DialogDemo type='cover_letter' letter={app?.cover_letter} />
+                            <DialogDemo style="text-xs sm:text-sm" type='cover_letter' letter={app?.cover_letter} />
                         )
                     }
 
                     {
                         app?.linkedin && (
-                            <a className='text-sm text-accent-600 hover:underline hover:text-accent-800 transition-all duration-300 font-semibold' target='_blank' href={`${app.linkedin}`}>LinkedIn</a>
+                            <a className='text-xs text-accent-600 hover:underline hover:text-accent-800 transition-all duration-300 font-semibold' target='_blank' href={`${app.linkedin}`}>LinkedIn</a>
+                        )
+                    }
+
+                    {
+                        app?.resume && (
+                            <DialogDemo style="text-xs sm:text-sm" resume={app?.resume} />
                         )
                     }
                 </span>
 
                 {
-                    app?.resume && (
-                        <DialogDemo resume={app?.resume} />
+                    app.status && (
+                        <p className='text-sm font-semibold self-end'>
+                            Status:
+                            <span className='text-accent-600'>
+                                {" " + app.status}
+                            </span>
+                        </p>
                     )
                 }
             </div>
@@ -126,7 +143,7 @@ function DialogDemo({ type, letter, resume, style }) {
                 <DialogHeader>
                     <DialogTitle>Cover Letter</DialogTitle>
                 </DialogHeader>
-                <p className='max-h-[600px] overflow-scroll' style={{ whiteSpace: 'pre-wrap' }}>
+                <p className='max-h-[600px] overflow-scroll p-3 bg-black-100' style={{ whiteSpace: 'pre-wrap' }}>
                     {letter}
                 </p>
             </DialogContent>

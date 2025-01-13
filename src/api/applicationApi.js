@@ -34,3 +34,54 @@ export async function applyForJob(token, {}, jobData) {
     return null;
   }
 }
+
+export async function fetchApplications(token, { jobId = null }) {
+  if (!jobId) {
+    throw new Error("Job id is required");
+  }
+
+  try {
+    const supabase = await supabaseClient(token);
+
+    const { data, error } = await supabase
+      .from("application")
+      .select("*")
+      .eq("job_id", jobId)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (e) {
+    console.log("Error while fetching applications");
+    return null;
+  }
+}
+
+export async function updateApplicationStatus(
+  token,
+  {},
+  applicationIdList,
+  status
+) {
+  try {
+    const supabase = await supabaseClient(token);
+
+    const { data, error } = await supabase
+      .from("application")
+      .update({ status }) 
+      .in("id", applicationIdList) 
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  } catch (e) {
+    console.error("Error updating job status: ", e.message);
+    return null;
+  }
+}

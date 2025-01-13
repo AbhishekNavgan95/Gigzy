@@ -9,28 +9,25 @@ const useFetch = (cb, options = {}) => {
 
   const { session } = useSession();
 
-  const fn = useCallback(
-    async (...args) => {
-      setLoading(true);
-      setError(null);
-      let response;
+  const fn = async (...args) => {
+    setLoading(true);
+    setError(null);
+    let response;
 
-      try {
-        const supabaseAccessToken = await session.getToken({
-          template: "supabase",
-        });
-        response = await cb(supabaseAccessToken, options, ...args);
-        setData(response);
-        setError(null);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-      return response;
-    },
-    [cb, options, session]
-  );
+    try {
+      const supabaseAccessToken = await session.getToken({
+        template: "supabase",
+      });
+      response = await cb(supabaseAccessToken, options, ...args);
+      setData(response);
+      setError(null);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+    return response;
+  };
 
   return { data, loading, error, fn };
 };
