@@ -39,7 +39,7 @@ const HeroSection = () => {
 
     return (
         <section className='grid-background pt-24 pb-5 lg:pt-36 flex flex-col gap-y-12 px-3'>
-            <div className='px-3 flex flex-col items-center justify-center gap-y-10 gap-x-6 lg:gap-14 xl:gap-x-24 container mx-auto'>
+            <div className='flex flex-col items-center justify-center gap-y-10 gap-x-6 lg:gap-14 xl:gap-x-24 container mx-auto'>
                 <div className='text-black-800 flex flex-col items-start w-10/12 gap-y-5 md:gap-4'>
                     <div className='flex flex-col lg:flex-row justify-between items-center w-full gap-6 mt-10'>
 
@@ -63,11 +63,15 @@ const HeroSection = () => {
                         </span>
 
                         <span className='flex flex-col justify-between items-center lg:items-end gap-y-5 '>
-                            <span type="button" className="flex w-max items-center gap-x-3 text-accent-600 text-sm bg-white border px-3 py-1.5 tracking-wide rounded-full">
-                                <LuHeartHandshake />
-                                Trusted by Thousands of Emoployees & Recruiters
+
+                            <span type="button" className="flex w-max max-w-[90%] md:max-w-full items-center gap-x-3 text-accent-600 text-sm bg-white border px-3 py-1.5 tracking-wide rounded-full text-wrap">
+                                <LuHeartHandshake className='hidden md:block' />
+                                <p className='text-wrap text-center md:text-start'>
+                                    Trusted by Thousands of Emoployees & Recruiters
+                                </p>
                             </span>
-                            <p className='max-w-[700px] font-semibold text-center text-black-600 lg:text-end text-base lg:text-xl'>Discover your dream job effortlessly with Gigzy - the platform that connects you to opportunities tailored to your interests.</p>
+
+                            <p className='max-w-[700px] w-[90%] font-semibold text-center text-black-600 lg:text-end text-base lg:text-xl'>Discover your dream job effortlessly with Gigzy - the platform that connects you to opportunities tailored to your interests.</p>
                         </span>
                     </div>
                 </div>
