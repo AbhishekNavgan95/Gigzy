@@ -12,6 +12,7 @@ import { ThemeProvider } from "./components/ui/theme-provider"
 import { ClerkProvider, Protect } from "@clerk/clerk-react"
 import { dark, shadesOfPurple } from "@clerk/themes"
 import ProtectedRoute from "./components/ProtectedRoute"
+import Game from "./pages/Game"
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
+        path: "/play",
+        element: <Game />,
+      },
+      {
         path: "/onboarding",
         element: <OnboardingPage />
       },
@@ -41,7 +46,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><JobDetails /></ProtectedRoute>,
       },
       {
-        path: "/job/:id/applications",
+        path: "/job/:id/applications/:page",
         element: <ProtectedRoute><ApplicationListing /></ProtectedRoute>,
       },
       {

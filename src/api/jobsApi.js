@@ -115,7 +115,6 @@ export async function getJobs(
       );
     }
 
-    // Apply pagination
     const start = (page - 1) * limit;
     const end = start + limit - 1;
     dataQuery = dataQuery.range(start, end);
@@ -124,7 +123,6 @@ export async function getJobs(
       dataQuery = dataQuery.order("created_at", { ascending: true });
     }
 
-    // Execute the data query
     const { data, error } = await dataQuery;
 
     if (error) {

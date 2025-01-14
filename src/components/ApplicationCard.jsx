@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from './ui/button'
 import { format } from 'timeago.js';
 import {
     Dialog,
@@ -10,19 +9,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { applicationStatus } from '@/data/staticData';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Checkbox } from './ui/checkbox';
 
-const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateList }) => {
-
-    // console.log("application : ", app);
+const ApplicationCard = ({ app, setUpdateList, updateList }) => {
 
     return (
         <div className='border-2 p-5 rounded-lg shadow-md'>
+            {/* card header */}
             <span className='flex justify-between flex-col md:flex-row items-start'>
+
                 <div className='flex items-center gap-3'>
                     <span className='flex items-start flex-col'>
                         <span className='flex items-center gap-3'>
@@ -43,20 +38,25 @@ const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateLi
                         <a href={`mailto:${app.email}`} className='ml-7 hover:underline text-sm font-light'>{app.email}</a>
                     </span>
                 </div>
-                <p className='text-sm self-end'>{format(new Date(app.created_at))}</p>
-            </span>
 
+                <p className='text-sm self-end'>{format(new Date(app.created_at))}</p>
+
+            </span>
             <hr className='mt-3' />
 
+            {/* card body */}
             <div className='grid grid-cols-2 my-3 gap-3'>
+
                 <span>
                     <h4 className='font-semibold text-sm'>Education:</h4>
                     <p className='text-xs md:text-base font-light'>{app?.education_level}</p>
                 </span>
+
                 <span>
                     <h4 className='font-semibold text-sm'>Specialization:</h4>
                     <p className='text-xs md:text-base font-light'>{app?.specialization}</p>
                 </span>
+
                 {
                     app.institution && app.graduation_year && (
                         <>
@@ -71,6 +71,7 @@ const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateLi
                         </>
                     )
                 }
+
                 {
                     !app.institution && !app.graduation_year && (
                         <>
@@ -87,8 +88,9 @@ const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateLi
                 }
             </div>
 
+            {/* card footer */}
             <div className='flex flex-col items-stretch md:flex-row md:items-center gap-3 justify-between'>
-                <span className='flex gap-3 justify-between items-center bg-black-100 px-3 py-2 rounded-lg'>
+                <span className='flex gap-5 justify-between items-center bg-black-100 px-3 py-2 rounded-lg'>
                     {
                         app?.cover_letter && (
                             <DialogDemo style="text-xs sm:text-sm" type='cover_letter' letter={app?.cover_letter} />
@@ -124,15 +126,6 @@ const ApplicationCard = ({ app, updateApplicationStatus, setUpdateList, updateLi
 }
 
 function DialogDemo({ type, letter, resume, style }) {
-
-
-    const handleResumeDownload = (href) => {
-        console.log("href : ", href)
-        const link = document.createElement('a');
-        link.href = href
-        link.target = '_blank'
-        link.click();
-    }
 
     if (type === 'cover_letter') {
         return <Dialog>

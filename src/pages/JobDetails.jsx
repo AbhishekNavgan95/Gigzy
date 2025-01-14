@@ -110,7 +110,7 @@ const JobDetails = () => {
         }
         {
           jobData.recruiter_id === user.id &&
-          <Link state={jobData} to={`/job/${jobData.id}/applications`}>
+          <Link state={jobData} to={`/job/${jobData.id}/applications/1`}>
             <Button>
               View Applications
             </Button>
