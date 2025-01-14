@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Slash } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import Spinner from '@/components/Spinner';
 
 const JobDetails = () => {
 
@@ -51,8 +52,17 @@ const JobDetails = () => {
     if (id) fnGetJobDetails();
   }, [id, isLoaded]);
 
-  if (jobDataLoading) return <div>Loading...</div>
+  // if (jobDataLoading) return <div>Loading...</div>
 
+  
+  if (!isLoaded || jobDataLoading || !jobData) {
+    return (
+      <div className='min-h-screen flex items-center'>
+        <Spinner />
+      </div>
+    )
+  }
+  
   if (!jobDataLoading && !jobData) return <div>Data not found</div>
 
   return (

@@ -40,15 +40,16 @@ const ListJobs = ({
         }
     }, [jobsData])
 
+    if (loadingJobs || !isLoaded) {
+        return (
+            <span className='min-h-[400px] w-full flex items-center justify-center '>
+                <Spinner />
+            </span>
+        )
+    }
+
     return (
         <>
-            {
-                loadingJobs || !isLoaded && (
-                    <span className='min-h-[400px] w-full flex items-center justify-center '>
-                        <Spinner />
-                    </span>
-                )
-            }
             <div className='w-full flex justify-between items-center px-3'>
                 <h4 className='sm:-text-base lg:text-lg xl:text-xl font-thin'>{data?.pagination && data?.pagination?.totalCount} Jobs results</h4>
                 <ToolTip text={'filters'} >

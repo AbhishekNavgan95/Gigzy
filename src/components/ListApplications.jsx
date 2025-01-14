@@ -15,6 +15,8 @@ import { useToast } from '@/hooks/use-toast';
 import { applicationStatus } from '@/data/staticData';
 import useFetch from '@/hooks/use-fetch';
 import { fetchApplications, updateApplicationStatus } from '@/api/applicationApi';
+import Spinner from './Spinner';
+import DataNotFound from './DataNotFound';
 
 const ListApplications = ({ }) => {
 
@@ -82,6 +84,14 @@ const ListApplications = ({ }) => {
         handleStatusChange(status)
     }, [status])
 
+    if (applicationLoading) {
+        return (
+            <span className='min-h-[400px] w-full flex items-center justify-center '>
+                <Spinner />
+            </span>
+        )
+    }
+
     return (
         <>
             <div className='flex justify-start gap-3 sticky top-0 bg-white py-5'>
@@ -101,13 +111,20 @@ const ListApplications = ({ }) => {
                 </Select>
             </div>
 
-            <div className='mb-5 flex flex-col gap-5 px-1'>
-                {
-                    applicationData?.data && applicationData?.data.map((app) => (
-                        <ApplicationCard setUpdateList={setUpdateList} updateList={updateList} key={app?.id} app={app} />
-                    ))
-                }
-            </div>
+            {
+                (!applicationLoading && applicationData?.data?.length === 0)
+                    ? (
+                        <DataNotFound />
+                    ) : (
+                        <div className='mb-5 flex flex-col gap-5 px-1'>
+                            {
+                                applicationData?.data && applicationData?.data.map((app) => (
+                                    <ApplicationCard setUpdateList={setUpdateList} updateList={updateList} key={app?.id} app={app} />
+                                ))
+                            }
+                        </div>
+                    )
+            }
 
 
             <div className='lg:self-end'>
