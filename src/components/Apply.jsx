@@ -101,7 +101,7 @@ const Apply = ({
                 </DrawerTrigger>
             </Button>
 
-            <DrawerContent className='my-14'>
+            <DrawerContent className='md:my-14'>
                 <DrawerHeader className='container mx-auto'>
                     <DrawerTitle>Apply for {job?.title} at {job?.company?.name}</DrawerTitle>
                     <DrawerDescription>Please fill the form below </DrawerDescription>
@@ -112,7 +112,7 @@ const Apply = ({
 
                         {/* name & email */}
                         <div className='flex items-center gap-3 w-full'>
-                            <span className='w-full space-y-1'>
+                            <span className='w-full space-y-1 text-sm md:text-base'>
                                 <label htmlFor="name">Name</label>
                                 <Input
                                     type="text"
@@ -126,7 +126,7 @@ const Apply = ({
                                     )
                                 }
                             </span>
-                            <span className='w-full space-y-1'>
+                            <span className='w-full space-y-1 text-sm md:text-base'>
                                 <label htmlFor="mail">Email</label>
                                 <Input
                                     type="email"
@@ -144,14 +144,14 @@ const Apply = ({
 
                         {/* education & Specialization */}
                         <div className='flex items-center gap-3 w-full mt-3'>
-                            <span className='w-full space-y-1'>
+                            <span className='w-full space-y-1 text-sm md:text-base'>
                                 <label htmlFor="education-level">Highest Education</label>
                                 <Controller
                                     name='educationLevel'
                                     control={control}
                                     render={({ field }) => (
                                         <Select onValueChange={field.onChange} defaultValue={field.value} id='education-level' className=''>
-                                            <SelectTrigger className="w-full border">
+                                            <SelectTrigger className="w-full border text-xs md:text-sm h-7 nd:h-9 ">
                                                 <SelectValue placeholder="Highest Qualification" />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -173,7 +173,7 @@ const Apply = ({
                                 }
                             </span>
 
-                            <span className='w-full space-y-1'>
+                            <span className='w-full space-y-1 text-sm md:text-base'>
                                 <label htmlFor="specialization">Specialization</label>
                                 <Input {...register('specialization')} type="text" id='specialization' placeholder="Information Technology, Architecture, Commerce" />
                                 {
@@ -186,13 +186,13 @@ const Apply = ({
 
                         {/* isfresher filter */}
                         <div className='flex items-center gap-3 w-full mt-3'>
-                            <span className='w-full flex items-center gap-2'>
+                            <span className='w-full flex items-center gap-2 text-sm md:text-base'>
                                 <Checkbox
                                     id='isFresher'
                                     onCheckedChange={() => setIsFresher(prev => !prev)}
                                     checked={isFresher}
                                 />
-                                <label className='cursor-pointer' htmlFor="isFresher">Are you a Fresher?</label>
+                                <label className='cursor-pointer text-xs md:text-sm' htmlFor="isFresher">Are you a Fresher?</label>
                             </span>
                         </div>
 
@@ -200,7 +200,7 @@ const Apply = ({
                             isFresher &&
                             // Institute Name & graduationYear
                             <div className='flex items-center gap-3 w-full mt-3'>
-                                <span className='w-full space-y-1' >
+                                <span className='w-full space-y-1 text-sm md:text-base' >
                                     <label htmlFor="institution">Institute Name</label>
                                     <Input {...register('institution')} type="text" id='institution' placeholder="Institution" />
                                     {
@@ -209,14 +209,14 @@ const Apply = ({
                                         )
                                     }
                                 </span>
-                                <span {...register('graduationYear')} className='w-full space-y-1'>
+                                <span {...register('graduationYear')} className='w-full space-y-1 text-sm md:text-base'>
                                     <label htmlFor="graduation-year">Graduation Year</label>
                                     <Controller
                                         name='graduationYear'
                                         control={control}
                                         render={({ field }) => (
                                             <Select onValueChange={field.onChange} defaultValue={field.value} id='graduation-year' className=''>
-                                                <SelectTrigger className="w-full border">
+                                                <SelectTrigger className="w-full border text-xs md:text-sm h-7 nd:h-9 ">
                                                     <SelectValue placeholder="Year of Graduation" />
                                                 </SelectTrigger>
                                                 <SelectContent>
@@ -245,7 +245,7 @@ const Apply = ({
                             !isFresher && (
                                 // Year of Experience & Notice Period
                                 <div className='flex items-center gap-3 w-full mt-3'>
-                                    <span className='w-full space-y-1'>
+                                    <span className='w-full space-y-1 text-sm md:text-base'>
                                         <label htmlFor="experience">Year of Experience</label>
                                         <Input {...register('experience')} type="number" id='experience' min='0' placeholder="0" />
                                         {
@@ -254,14 +254,14 @@ const Apply = ({
                                             )
                                         }
                                     </span>
-                                    <span className='w-full space-y-1'>
+                                    <span className='w-full space-y-1 text-sm md:text-base'>
                                         <label htmlFor="notice-period">Notice Period</label>
                                         <Controller
                                             name='noticePeriod'
                                             control={control}
                                             render={({ field }) => (
                                                 <Select onValueChange={field.onChange} defaultValue={field.value} id='notice-period' className=''>
-                                                    <SelectTrigger className="w-full border">
+                                                    <SelectTrigger className="w-full border text-xs md:text-sm h-7 nd:h-9 ">
                                                         <SelectValue placeholder="0 Months" />
                                                     </SelectTrigger>
                                                     <SelectContent>
@@ -288,7 +288,7 @@ const Apply = ({
 
                         {/* LinkedIn Profile & Resume */}
                         <div className='flex items-center gap-3 w-full mt-3'>
-                            <span className='w-full space-y-1'>
+                            <span className='w-full space-y-1 text-sm md:text-base'>
                                 <label htmlFor="linkedin">LinkedIn Profile Url</label>
                                 <Input {...register('linkedin')} type='text' id='linkedin' placeholder='www.linkedin.com/xyz' />
                                 {
@@ -297,7 +297,7 @@ const Apply = ({
                                     )
                                 }
                             </span>
-                            <span className='w-full space-y-1 flex flex-col'>
+                            <span className='w-full space-y-1 text-sm md:text-base'>
                                 <label htmlFor="resume">CV / Resume</label>
                                 <Input {...register('resume')} type='file' id='resume' accept=".pdf" />
                                 {
@@ -310,9 +310,9 @@ const Apply = ({
 
                         {/* cover letter */}
                         <div className='w-full mt-3'>
-                            <span className='w-full space-y-1'>
+                            <span className='w-full space-y-1 text-sm md:text-base'>
                                 <label htmlFor="coverLetter">Cover letter</label>
-                                <Textarea {...register('coverLetter')} rows='5' name='coverLetter' id='coverLetter' placeholder="start writing here..." />
+                                <Textarea {...register('coverLetter')} className=' text-xs md:text-sm' rows='4' name='coverLetter' id='coverLetter' placeholder="start writing here..." />
                                 {
                                     errors?.coverLetter && (
                                         <span className='text-red-700'>{errors.coverLetter?.message}</span>
