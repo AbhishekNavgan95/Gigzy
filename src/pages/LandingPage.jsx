@@ -8,28 +8,27 @@ import PostJob from '@/components/PostJob'
 import Footer from '../components/Footer'
 import Testimonials from '@/components/Testimonials'
 import { useUser } from '@clerk/clerk-react'
-import { Toast, ToastAction } from '@/components/ui/toast'
 import { useToast } from "../hooks/use-toast"
-import { useNavigate } from 'react-router-dom'
-import { FaArrowRight } from "react-icons/fa";
-
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import OnboardingPage from './OnboardingPage'
+import { Button } from '@/components/ui/button'
 
 const LandingPage = () => {
 
   const { isLoaded, user, isSignedIn } = useUser();
   const { toast } = useToast()
-  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (isLoaded && isSignedIn && user?.unsafeMetadata?.role === undefined) {
+    if (isLoaded && isSignedIn && user?.unsafeMetadata?.role === undefined && searchParams.get('setup') !== 'true') {
       toast({
         title: "Please complete your account setup ",
         description: "",
+        duration: 5000,
         action: (
-          <button onClick={() => navigate('/onboarding')}
-          >
-            <ToastAction altText="Goto schedule to undo"><FaArrowRight /></ToastAction>
-          </button>
+          <Button onClick={() => setSearchParams({ setup: 'true' })} variant='default'>
+            Start
+          </Button>
         ),
       })
     }
@@ -37,6 +36,8 @@ const LandingPage = () => {
 
   return (
     <section className='bg-backgroundColor-default min-h-screen'>
+
+      <OnboardingPage />
 
       <HeroSection />
 

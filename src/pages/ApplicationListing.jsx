@@ -12,6 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Slash } from 'lucide-react';
 import useFetch from '@/hooks/use-fetch';
 import { getJobDetails } from '@/api/jobsApi';
@@ -56,9 +57,20 @@ const ApplicationListin = () => {
             <BreadcrumbSeparator>
               <Slash />
             </BreadcrumbSeparator>
+
             <BreadcrumbItem>
-              <BreadcrumbLink href="/jobs/1">Explore</BreadcrumbLink>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-1">
+                  <BreadcrumbEllipsis className="h-4 w-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className='flex flex-col items-center'>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/jobs/1">Explore</BreadcrumbLink>
+                  </BreadcrumbItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </BreadcrumbItem>
+
 
             <BreadcrumbSeparator>
               <Slash />

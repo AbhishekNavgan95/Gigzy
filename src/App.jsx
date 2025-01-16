@@ -34,10 +34,6 @@ const router = createBrowserRouter([
         element: <Game />,
       },
       {
-        path: "/onboarding",
-        element: <OnboardingPage />
-      },
-      {
         path: "/jobs/:page",
         element: <ProtectedRoute><JobListing /></ProtectedRoute>,
       },
