@@ -14,6 +14,7 @@ import { dark, shadesOfPurple } from "@clerk/themes"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Game from "./pages/Game"
 import PageNotFound from "./pages/PageNotFound"
+import ApplySuccess from "./pages/ApplySuccess"
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/job/:id",
         element: <ProtectedRoute><JobDetails /></ProtectedRoute>,
+      },
+      {
+        path: "/job/:id/success",
+        element: <ProtectedRoute><ApplySuccess /></ProtectedRoute>,
       },
       {
         path: "/job/:id/applications/:page",

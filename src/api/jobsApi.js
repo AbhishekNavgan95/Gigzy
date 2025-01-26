@@ -161,7 +161,7 @@ export async function getJobDetails(token, { jobId = null }) {
 
     const { data, error } = await supabase
       .from("job")
-      .select("*, company (*), saved_job(user_id)")
+      .select("*, company (*), saved_job(user_id), application(candidate_id)")
       .eq("id", jobId)
       .single();
 

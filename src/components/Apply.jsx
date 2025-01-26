@@ -29,6 +29,7 @@ import useFetch from '@/hooks/use-fetch'
 import { applyForJob } from '@/api/applicationApi'
 import { Textarea } from './ui/textarea'
 import { useToast } from '@/hooks/use-toast'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const schema = z.object({
     name: z.string().min(1, "Name cannot be empty").max(50, "Name too long"),
@@ -58,6 +59,7 @@ const Apply = ({
     const { register, handleSubmit, control, formState: { errors }, reset } = useForm({ resolver: zodResolver(schema) })
     const { error, data, loading, fn: apply } = useFetch(applyForJob)
     const { toast } = useToast();
+    const navigate = useNavigate();
 
     const submitHandler = async (data) => {
         const res = await apply({
@@ -82,6 +84,7 @@ const Apply = ({
             toast({
                 title: 'Your Application has been submitted succesfully!'
             })
+            navigate(`./success?job=${job.title}&company=${job.company.name}?success=true`)
             fetchJob()
         } else {
             toast({
@@ -92,7 +95,6 @@ const Apply = ({
 
     return (
         <Drawer open={applied ? false : undefined}>
-
             <Button size='' className='px-7' disabled={job?.status !== 'Active' || applied}>
                 <DrawerTrigger>
                     {
@@ -151,7 +153,7 @@ const Apply = ({
                                     control={control}
                                     render={({ field }) => (
                                         <Select onValueChange={field.onChange} defaultValue={field.value} id='education-level' className=''>
-                                            <SelectTrigger className="w-full border text-xs md:text-sm h-7 nd:h-9 ">
+                                            <SelectTrigger className="w-full border text-xs md:text-sm h-7 md:h-9 ">
                                                 <SelectValue placeholder="Highest Qualification" />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -216,7 +218,7 @@ const Apply = ({
                                         control={control}
                                         render={({ field }) => (
                                             <Select onValueChange={field.onChange} defaultValue={field.value} id='graduation-year' className=''>
-                                                <SelectTrigger className="w-full border text-xs md:text-sm h-7 nd:h-9 ">
+                                                <SelectTrigger className="w-full border text-xs md:text-sm h-7 md:h-9 ">
                                                     <SelectValue placeholder="Year of Graduation" />
                                                 </SelectTrigger>
                                                 <SelectContent>
@@ -261,7 +263,7 @@ const Apply = ({
                                             control={control}
                                             render={({ field }) => (
                                                 <Select onValueChange={field.onChange} defaultValue={field.value} id='notice-period' className=''>
-                                                    <SelectTrigger className="w-full border text-xs md:text-sm h-7 nd:h-9 ">
+                                                    <SelectTrigger className="w-full border text-xs md:text-sm h-7 md:h-9 ">
                                                         <SelectValue placeholder="0 Months" />
                                                     </SelectTrigger>
                                                     <SelectContent>
