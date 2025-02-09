@@ -1,8 +1,12 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { IoSearchSharp } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom';
 
 const PostJob = () => {
+
+    const navigate = useNavigate();
+
     return (
         <section className='bg-white group my-10 md:my-20'>
             <div className="w-full text-black-800 col-span-2 container mx-auto xl:px-32 my-10">
@@ -17,7 +21,7 @@ const PostJob = () => {
                         </span>
                         <p className="text-sm sm:text-base md:text-lg text-center md:text-start lg:w-[80%] text-black-400">Easily connect with top talent and find your perfect hire — post jobs, reach qualified candidates, and fill full-time or freelance roles seamlessly.</p>
                         {/* <p className="text-sm sm:text-base md:text-lg text-center md:text-start lg:w-[80%] text-black-400">Whether you're hiring for full-time positions or freelance opportunities, our platform helps you connect with the best talent in the industry.</p> */}
-                        <Button size="" type="button" >
+                        <Button size="" onClick={() => navigate('/post-job')} type="button"> 
                             Post a Job
                         </Button>
                     </div>

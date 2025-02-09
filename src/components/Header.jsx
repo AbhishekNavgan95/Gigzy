@@ -32,8 +32,8 @@ const Header = () => {
                     <SignedIn>
                         {
                             user?.unsafeMetadata?.role === 'recruiter' && (
-                                <Link to='/post-job'>
-                                    <Button size='sm' variant="secondary">
+                                <Link to='/post-job' className='mr-3'>
+                                    <Button size='sm' variant="default">
                                         Post Job
                                     </Button>
                                 </Link>
@@ -52,11 +52,6 @@ const Header = () => {
                                 />
                                 <UserButton.Link
                                     label='Saved Jobs'
-                                    labelIcon={<FaSave />}
-                                    href='/saved-jobs'
-                                />
-                                <UserButton.Link
-                                    label=''
                                     labelIcon={<FaSave />}
                                     href='/saved-jobs'
                                 />
